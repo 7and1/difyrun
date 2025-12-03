@@ -1,0 +1,23 @@
+# DifyRun - Cloudflare Worker + D1 Configuration
+name = "difyrun"
+main = ".open-next/worker.js"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Assets directory
+assets = { directory = ".open-next/assets", binding = "ASSETS" }
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "difyrun-db"
+database_id = "04a76343-22cf-4843-a91c-6be7edff7826"
+
+# Environment variables
+[vars]
+NEXT_PUBLIC_SITE_URL = "https://difyrun.pages.dev"
+
+# Rules for asset routing
+[[rules]]
+type = "ESModule"
+globs = ["**/*.js", "**/*.mjs"]

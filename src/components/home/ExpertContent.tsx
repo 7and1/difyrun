@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import {
   BookOpen,
   Zap,
@@ -325,18 +326,18 @@ export function ExpertContent() {
               starting point for your AI project.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <a
+              <Link
                 href="/explore"
                 className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium hover:from-blue-700 hover:to-purple-700 transition-colors"
               >
                 Explore All Templates
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/docs/getting-started"
                 className="inline-flex items-center justify-center px-8 py-3 rounded-lg border bg-background hover:bg-muted transition-colors font-medium"
               >
                 Read the Docs
-              </a>
+              </Link>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 // Convert Dify DSL to ReactFlow format
 
-import { Node, Edge, MarkerType } from 'reactflow';
-import yaml from 'js-yaml';
+import { Node, Edge, MarkerType } from "reactflow";
+import yaml from "js-yaml";
 
 interface FlowData {
   nodes: Node[];
@@ -11,24 +11,24 @@ interface FlowData {
 
 // Node type colors
 const NODE_COLORS: Record<string, string> = {
-  start: '#22c55e',          // Green
-  end: '#ef4444',            // Red
-  llm: '#3b82f6',            // Blue
-  'knowledge-retrieval': '#8b5cf6', // Purple
-  retrieval: '#8b5cf6',      // Purple
-  code: '#f97316',           // Orange
-  'http-request': '#06b6d4', // Cyan
-  'if-else': '#eab308',      // Yellow
-  'variable-assigner': '#64748b', // Slate
-  'variable-aggregator': '#64748b', // Slate
-  tool: '#ec4899',           // Pink
-  iteration: '#14b8a6',      // Teal
-  'iteration-start': '#14b8a6', // Teal
-  'parameter-extractor': '#8b5cf6', // Purple
-  'question-classifier': '#f97316', // Orange
-  'template-transform': '#6366f1', // Indigo
-  answer: '#22c55e',         // Green
-  default: '#94a3b8',        // Gray
+  start: "#22c55e", // Green
+  end: "#ef4444", // Red
+  llm: "#3b82f6", // Blue
+  "knowledge-retrieval": "#8b5cf6", // Purple
+  retrieval: "#8b5cf6", // Purple
+  code: "#f97316", // Orange
+  "http-request": "#06b6d4", // Cyan
+  "if-else": "#eab308", // Yellow
+  "variable-assigner": "#64748b", // Slate
+  "variable-aggregator": "#64748b", // Slate
+  tool: "#ec4899", // Pink
+  iteration: "#14b8a6", // Teal
+  "iteration-start": "#14b8a6", // Teal
+  "parameter-extractor": "#8b5cf6", // Purple
+  "question-classifier": "#f97316", // Orange
+  "template-transform": "#6366f1", // Indigo
+  answer: "#22c55e", // Green
+  default: "#94a3b8", // Gray
 };
 
 // Parse DSL content string to flow data
@@ -46,12 +46,12 @@ export function parseDslToFlow(dslContent: string): FlowData {
 
     // Convert nodes
     const nodes: Node[] = dslNodes.map((node: any) => {
-      const type = node.data?.type || 'default';
+      const type = node.data?.type || "default";
       const color = NODE_COLORS[type] || NODE_COLORS.default;
 
       return {
         id: node.id,
-        type: 'custom',
+        type: "custom",
         data: {
           label: node.data?.title || node.id,
           type: type,
@@ -69,26 +69,27 @@ export function parseDslToFlow(dslContent: string): FlowData {
       target: edge.target,
       sourceHandle: edge.sourceHandle,
       targetHandle: edge.targetHandle,
-      type: 'smoothstep',
+      type: "smoothstep",
       animated: false,
       markerEnd: {
         type: MarkerType.ArrowClosed,
-        color: '#94a3b8',
+        color: "#94a3b8",
       },
       style: {
-        stroke: '#94a3b8',
+        stroke: "#94a3b8",
         strokeWidth: 2,
       },
     }));
 
     // Check if positions are valid
     const hasPositions = dslNodes.some(
-      (node: any) => node.position && (node.position.x !== 0 || node.position.y !== 0)
+      (node: any) =>
+        node.position && (node.position.x !== 0 || node.position.y !== 0),
     );
 
     return { nodes, edges, hasPositions };
   } catch (error) {
-    console.error('Failed to parse DSL:', error);
+    console.error("Failed to parse DSL:", error);
     return { nodes: [], edges: [], hasPositions: true };
   }
 }

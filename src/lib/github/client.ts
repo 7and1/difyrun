@@ -1,6 +1,6 @@
 // GitHub client singleton using Octokit
 
-import { Octokit } from 'octokit';
+import { Octokit } from "octokit";
 
 let octokitInstance: Octokit | null = null;
 
@@ -8,7 +8,7 @@ export function getOctokit(): Octokit {
   if (!octokitInstance) {
     const token = process.env.GITHUB_TOKEN;
     if (!token) {
-      throw new Error('GITHUB_TOKEN environment variable is required');
+      throw new Error("GITHUB_TOKEN environment variable is required");
     }
     octokitInstance = new Octokit({ auth: token });
   }

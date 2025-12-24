@@ -14,11 +14,11 @@ The Ultimate Dify AI Workflow & MCP Server Library.
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
-- **Database**: Supabase (PostgreSQL)
+- **Framework**: Next.js 15 (App Router, Edge runtime)
+- **Database**: Cloudflare D1 (SQLite via OpenNext `getCloudflareContext`)
 - **Styling**: Tailwind CSS + shadcn/ui
 - **Visualization**: ReactFlow + Dagre
-- **Deployment**: Docker
+- **Deployment**: Cloudflare Workers (OpenNext) or Docker for local previews
 
 ## Quick Start
 
@@ -37,18 +37,24 @@ cp .env.example .env.local
 ```
 
 Required environment variables:
-- `NEXT_PUBLIC_SUPABASE_URL` - Your Supabase project URL
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anon key
-- `SUPABASE_SERVICE_ROLE_KEY` - Supabase service role key
-- `GITHUB_TOKEN` - GitHub personal access token (for sync)
-- `SYNC_SECRET` - Secret for protecting sync endpoint
+
+- `NEXT_PUBLIC_SITE_URL` - Canonical site host (used in metadata/OG)
+- `NEXT_PUBLIC_SITE_NAME` - Display name for structured data
+- `OPENROUTER_API_KEY` (optional) - Enables AI advisor features
+- `GITHUB_TOKEN` - GitHub personal access token (repo sync/read)
+- `SYNC_SECRET` - Bearer token enforced by `/api/sync`
+- `NEXT_PUBLIC_UMAMI_WEBSITE_ID` (optional) - Analytics tracking ID
 
 ### 3. Setup Database
 
-Run the SQL schema in your Supabase SQL Editor:
+Replay the D1 schema + seed data locally (or switch `--remote` to target Cloudflare):
 
 ```bash
-# Copy contents of scripts/schema.sql to Supabase SQL Editor
+# Apply schema
+npm run db:migrate
+
+# Seed starter data
+npm run db:seed
 ```
 
 ### 4. Development
@@ -79,15 +85,15 @@ make down
 
 ## API Endpoints
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/sync` | POST | Trigger workflow sync from GitHub |
-| `/api/search` | GET | Search workflows |
-| `/api/download` | GET | Download DSL file |
-| `/api/feedback` | POST | Submit works/broken feedback |
-| `/api/og` | GET | Generate OG image |
-| `/api/revalidate` | POST | Revalidate ISR cache |
-| `/api/health` | GET | Health check |
+| Endpoint          | Method | Description                       |
+| ----------------- | ------ | --------------------------------- |
+| `/api/sync`       | POST   | Trigger workflow sync from GitHub |
+| `/api/search`     | GET    | Search workflows                  |
+| `/api/download`   | GET    | Download DSL file                 |
+| `/api/feedback`   | POST   | Submit works/broken feedback      |
+| `/api/og`         | GET    | Generate OG image                 |
+| `/api/revalidate` | POST   | Revalidate ISR cache              |
+| `/api/health`     | GET    | Health check                      |
 
 ## Project Structure
 
@@ -105,9 +111,9 @@ src/
 │   └── workflow/          # Workflow components
 ├── config/                # Categories, sources config
 ├── lib/
-│   ├── actions/           # Server actions
+│   ├── db/                # Cloudflare D1 helpers + cached loaders
 │   ├── github/            # GitHub sync engine
-│   ├── supabase/          # Supabase clients
+│   ├── ai/                # AI utilities (OG helpers, advisors)
 │   └── visualizer/        # DSL to ReactFlow
 └── types/                 # TypeScript types
 ```

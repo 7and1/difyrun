@@ -1,7 +1,7 @@
 // GitHub file fetcher with concurrency control
 
-import { getOctokit } from './client';
-import pLimit from 'p-limit';
+import { getOctokit } from "./client";
+import pLimit from "p-limit";
 
 export interface RepoConfig {
   id: string;
@@ -29,13 +29,13 @@ export async function fetchFileTree(config: RepoConfig): Promise<FileEntry[]> {
       owner: config.owner,
       repo: config.repo,
       tree_sha: config.branch,
-      recursive: 'true', // CRITICAL: Gets all files in one request
+      recursive: "true", // CRITICAL: Gets all files in one request
     });
 
     // Filter for YAML files
     const yamlFiles = data.tree.filter((item) => {
       // Must be a file (blob)
-      if (item.type !== 'blob') return false;
+      if (item.type !== "blob") return false;
 
       // Must be YAML
       if (!item.path?.match(/\.ya?ml$/i)) return false;
@@ -62,7 +62,10 @@ export async function fetchFileTree(config: RepoConfig): Promise<FileEntry[]> {
       url: `https://raw.githubusercontent.com/${config.owner}/${config.repo}/${config.branch}/${item.path}`,
     }));
   } catch (error) {
-    console.error(`Failed to fetch tree for ${config.owner}/${config.repo}:`, error);
+    console.error(
+      `Failed to fetch tree for ${config.owner}/${config.repo}:`,
+      error,
+    );
     throw error;
   }
 }
@@ -73,7 +76,7 @@ const limit = pLimit(5); // Max 5 concurrent requests
 // Fetch file content with concurrency control
 export async function fetchFileContent(
   config: RepoConfig,
-  file: FileEntry
+  file: FileEntry,
 ): Promise<string> {
   return limit(async () => {
     const octokit = getOctokit();
@@ -86,8 +89,8 @@ export async function fetchFileContent(
         ref: config.branch,
       });
 
-      if ('content' in data && data.encoding === 'base64') {
-        return Buffer.from(data.content, 'base64').toString('utf-8');
+      if ("content" in data && data.encoding === "base64") {
+        return Buffer.from(data.content, "base64").toString("utf-8");
       }
 
       throw new Error(`Unexpected response format for ${file.path}`);
@@ -101,7 +104,7 @@ export async function fetchFileContent(
 // Batch fetch all file contents
 export async function fetchAllContents(
   config: RepoConfig,
-  files: FileEntry[]
+  files: FileEntry[],
 ): Promise<Map<string, string>> {
   const contents = new Map<string, string>();
 
@@ -114,7 +117,7 @@ export async function fetchAllContents(
         // Log but don't fail entire sync for one file
         console.error(`Skipping ${file.path}: ${error}`);
       }
-    })
+    }),
   );
 
   return contents;

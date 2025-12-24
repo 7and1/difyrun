@@ -1,14 +1,21 @@
-import { Suspense } from 'react';
-import { Metadata } from 'next';
-import { getWorkflows, getPopularTags } from '@/lib/db';
-import { WorkflowGrid, SearchBar, FilterSidebar, SortDropdown, Pagination, ExploreContent } from '@/components/workflow';
+import { Suspense } from "react";
+import { Metadata } from "next";
+import { getWorkflows } from "@/lib/db";
+import {
+  WorkflowGrid,
+  SearchBar,
+  FilterSidebar,
+  SortDropdown,
+  Pagination,
+  ExploreContent,
+} from "@/components/workflow";
+import { getCachedPopularTags } from "@/lib/db/cache";
 
 export const metadata: Metadata = {
-  title: 'Explore Dify Workflows - Free DSL Templates',
-  description: 'Browse 100+ free Dify workflow templates. Filter by category, search by keywords, and download DSL files for your AI automation projects.',
+  title: "Explore Dify Workflows - Free DSL Templates",
+  description:
+    "Browse 100+ free Dify workflow templates. Filter by category, search by keywords, and download DSL files for your AI automation projects.",
 };
-
-export const dynamic = 'force-dynamic';
 
 interface SearchParams {
   q?: string;
@@ -23,24 +30,27 @@ interface ExplorePageProps {
 }
 
 async function getExploreData(searchParams: SearchParams) {
-  const page = Math.max(1, parseInt(searchParams.page || '1', 10));
+  const page = Math.max(1, parseInt(searchParams.page || "1", 10));
   const limit = 18;
   const offset = (page - 1) * limit;
 
-  const tags = Array.isArray(searchParams.tag) ? searchParams.tag : searchParams.tag ? [searchParams.tag] : [];
+  const tags = Array.isArray(searchParams.tag)
+    ? searchParams.tag
+    : searchParams.tag
+      ? [searchParams.tag]
+      : [];
 
-  // Get workflows
-  const { workflows, total } = await getWorkflows({
-    categoryId: searchParams.category,
-    search: searchParams.q,
-    tags: tags.length > 0 ? tags : undefined,
-    sort: (searchParams.sort as any) || 'popular',
-    limit,
-    offset,
-  });
-
-  // Get popular tags for filter sidebar
-  const popularTags = await getPopularTags(undefined, 20);
+  const [{ workflows, total }, popularTags] = await Promise.all([
+    getWorkflows({
+      categoryId: searchParams.category,
+      search: searchParams.q,
+      tags: tags.length > 0 ? tags : undefined,
+      sort: (searchParams.sort as any) || "popular",
+      limit,
+      offset,
+    }),
+    getCachedPopularTags(searchParams.category, 20),
+  ]);
 
   return {
     workflows,
@@ -51,12 +61,18 @@ async function getExploreData(searchParams: SearchParams) {
   };
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function ExplorePage({ searchParams }: ExplorePageProps) {
   const resolvedSearchParams = await searchParams;
   const data = await getExploreData(resolvedSearchParams);
   const totalPages = Math.ceil(data.total / data.limit);
 
-  const tags = Array.isArray(resolvedSearchParams.tag) ? resolvedSearchParams.tag : resolvedSearchParams.tag ? [resolvedSearchParams.tag] : [];
+  const tags = Array.isArray(resolvedSearchParams.tag)
+    ? resolvedSearchParams.tag
+    : resolvedSearchParams.tag
+      ? [resolvedSearchParams.tag]
+      : [];
 
   return (
     <div className="container py-8">
@@ -70,16 +86,24 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
 
       {/* Search and Sort */}
       <div className="flex flex-col sm:flex-row gap-4 mb-8">
-        <Suspense fallback={<div className="h-10 bg-muted animate-pulse rounded-md flex-1" />}>
+        <Suspense
+          fallback={
+            <div className="h-10 bg-muted animate-pulse rounded-md flex-1" />
+          }
+        >
           <SearchBar className="flex-1" />
         </Suspense>
-        <SortDropdown currentSort={resolvedSearchParams.sort || 'popular'} />
+        <SortDropdown currentSort={resolvedSearchParams.sort || "popular"} />
       </div>
 
       {/* Main content with sidebar */}
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Filters sidebar */}
-        <Suspense fallback={<div className="w-64 h-96 bg-muted animate-pulse rounded-md" />}>
+        <Suspense
+          fallback={
+            <div className="w-64 h-96 bg-muted animate-pulse rounded-md" />
+          }
+        >
           <FilterSidebar
             selectedCategory={resolvedSearchParams.category}
             selectedTags={tags}
@@ -94,7 +118,7 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
             emptyMessage={
               resolvedSearchParams.q
                 ? `No workflows found for "${resolvedSearchParams.q}". Try a different search term.`
-                : 'No workflows found. Try removing some filters.'
+                : "No workflows found. Try removing some filters."
             }
           />
 
@@ -118,35 +142,38 @@ export default async function ExplorePage({ searchParams }: ExplorePageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'CollectionPage',
-            name: 'Dify Workflow Templates',
-            description: 'Browse free Dify AI workflow templates. Filter by category, search by keywords, and download DSL files.',
-            url: 'https://difyrun.com/explore',
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Dify Workflow Templates",
+            description:
+              "Browse free Dify AI workflow templates. Filter by category, search by keywords, and download DSL files.",
+            url: "https://difyrun.com/explore",
             isPartOf: {
-              '@type': 'WebSite',
-              name: 'DifyRun',
-              url: 'https://difyrun.com',
+              "@type": "WebSite",
+              name: "DifyRun",
+              url: "https://difyrun.com",
             },
             about: {
-              '@type': 'SoftwareApplication',
-              name: 'Dify',
-              applicationCategory: 'AI Platform',
+              "@type": "SoftwareApplication",
+              name: "Dify",
+              applicationCategory: "AI Platform",
             },
             numberOfItems: data.total,
             mainEntity: {
-              '@type': 'ItemList',
+              "@type": "ItemList",
               numberOfItems: data.total,
-              itemListElement: data.workflows.slice(0, 10).map((workflow: any, index: number) => ({
-                '@type': 'ListItem',
-                position: index + 1,
-                item: {
-                  '@type': 'SoftwareSourceCode',
-                  name: workflow.name,
-                  description: workflow.description,
-                  url: `https://difyrun.com/workflow/${workflow.slug}`,
-                },
-              })),
+              itemListElement: data.workflows
+                .slice(0, 10)
+                .map((workflow: any, index: number) => ({
+                  "@type": "ListItem",
+                  position: index + 1,
+                  item: {
+                    "@type": "SoftwareSourceCode",
+                    name: workflow.name,
+                    description: workflow.description,
+                    url: `https://difyrun.com/workflow/${workflow.slug}`,
+                  },
+                })),
             },
           }),
         }}

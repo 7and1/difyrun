@@ -82,7 +82,7 @@ export interface WorkflowEvent {
 export interface WorkflowFeedback {
   id: string;
   workflow_id: string;
-  feedback_type: 'works' | 'broken';
+  feedback_type: "works" | "broken";
   dify_version: string | null;
   comment: string | null;
   ip_address: string | null;
@@ -93,7 +93,7 @@ export interface WorkflowFeedback {
 export interface SyncLog {
   id: string;
   repo_id: string | null;
-  status: 'started' | 'completed' | 'failed';
+  status: "started" | "completed" | "failed";
   workflows_added: number;
   workflows_updated: number;
   workflows_unchanged: number;
@@ -164,19 +164,23 @@ export interface RepoSourceParsed {
 }
 
 // Helper to parse workflow from D1
-export function parseWorkflow(w: Workflow & { repo_sources?: RepoSource }): WorkflowParsed {
+export function parseWorkflow(
+  w: Workflow & { repo_sources?: RepoSource },
+): WorkflowParsed {
   return {
     ...w,
-    tags: JSON.parse(w.tags || '[]'),
-    node_types: JSON.parse(w.node_types || '[]'),
+    tags: JSON.parse(w.tags || "[]"),
+    node_types: JSON.parse(w.node_types || "[]"),
     has_knowledge_base: Boolean(w.has_knowledge_base),
     has_tool_nodes: Boolean(w.has_tool_nodes),
     has_valid_positions: Boolean(w.has_valid_positions),
-    repo_source: w.repo_sources ? {
-      name: w.repo_sources.name,
-      owner: w.repo_sources.owner,
-      repo: w.repo_sources.repo,
-    } : null,
+    repo_source: w.repo_sources
+      ? {
+          name: w.repo_sources.name,
+          owner: w.repo_sources.owner,
+          repo: w.repo_sources.repo,
+        }
+      : null,
   };
 }
 

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
+import { useState } from "react";
+import Link from "next/link";
 import {
   Download,
   Copy,
@@ -14,18 +14,18 @@ import {
   Clock,
   Eye,
   ChevronRight,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { DslVisualizer } from '@/components/visualizer/DslVisualizer';
-import { DslCodeBlock } from './DslCodeBlock';
-import { FeedbackButtons } from './FeedbackButtons';
-import { WorkflowExpertContent } from './WorkflowExpertContent';
-import { CompatibilityBadge } from './CompatibilityBadge';
-import { cn, formatNumber, formatDate } from '@/lib/utils';
-import { getCategoryById, getCategoryEmoji } from '@/config/categories';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DslVisualizer } from "@/components/visualizer/DslVisualizer";
+import { DslCodeBlock } from "./DslCodeBlock";
+import { FeedbackButtons } from "./FeedbackButtons";
+import { WorkflowExpertContent } from "./WorkflowExpertContent";
+import { CompatibilityBadge } from "./CompatibilityBadge";
+import { cn, formatNumber, formatDate } from "@/lib/utils";
+import { getCategoryById, getCategoryEmoji } from "@/config/categories";
 
 interface Workflow {
   id: string;
@@ -59,22 +59,30 @@ interface WorkflowDetailProps {
   similarWorkflows?: Workflow[];
 }
 
-export function WorkflowDetail({ workflow, similarWorkflows = [] }: WorkflowDetailProps) {
+export function WorkflowDetail({
+  workflow,
+  similarWorkflows = [],
+}: WorkflowDetailProps) {
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState('code');
+  const [activeTab, setActiveTab] = useState("code");
 
-  const category = workflow.category_id ? getCategoryById(workflow.category_id) : null;
-  const categoryEmoji = workflow.category_id ? getCategoryEmoji(workflow.category_id) : '📁';
+  const category = workflow.category_id
+    ? getCategoryById(workflow.category_id)
+    : null;
+  const categoryEmoji = workflow.category_id
+    ? getCategoryEmoji(workflow.category_id)
+    : "📁";
 
   // Calculate compatibility
   const totalVotes = workflow.works_count + workflow.broken_count;
-  const compatibilityPercent = totalVotes > 0
-    ? Math.round((workflow.works_count / totalVotes) * 100)
-    : null;
+  const compatibilityPercent =
+    totalVotes > 0
+      ? Math.round((workflow.works_count / totalVotes) * 100)
+      : null;
 
   // Handle download
   const handleDownload = async () => {
-    window.open(`/api/download?slug=${workflow.slug}`, '_blank');
+    window.open(`/api/download?slug=${workflow.slug}`, "_blank");
   };
 
   // Handle copy
@@ -84,7 +92,7 @@ export function WorkflowDetail({ workflow, similarWorkflows = [] }: WorkflowDeta
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
-      console.error('Failed to copy:', error);
+      console.error("Failed to copy:", error);
     }
   };
 
@@ -92,7 +100,10 @@ export function WorkflowDetail({ workflow, similarWorkflows = [] }: WorkflowDeta
     <div className="space-y-8">
       {/* Breadcrumb */}
       <nav className="flex items-center text-sm text-muted-foreground">
-        <Link href="/explore" className="hover:text-foreground transition-colors">
+        <Link
+          href="/explore"
+          className="hover:text-foreground transition-colors"
+        >
           Explore
         </Link>
         <ChevronRight className="h-4 w-4 mx-2" />
@@ -107,7 +118,9 @@ export function WorkflowDetail({ workflow, similarWorkflows = [] }: WorkflowDeta
             <ChevronRight className="h-4 w-4 mx-2" />
           </>
         )}
-        <span className="text-foreground font-medium truncate">{workflow.name}</span>
+        <span className="text-foreground font-medium truncate">
+          {workflow.name}
+        </span>
       </nav>
 
       {/* Header */}
@@ -134,19 +147,29 @@ export function WorkflowDetail({ workflow, similarWorkflows = [] }: WorkflowDeta
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl lg:text-4xl font-bold mb-4">{workflow.name}</h1>
+          <h1 className="text-3xl lg:text-4xl font-bold mb-4">
+            {workflow.name}
+          </h1>
 
           {/* Description */}
           {workflow.description && (
-            <p className="text-lg text-muted-foreground mb-4">{workflow.description}</p>
+            <p className="text-lg text-muted-foreground mb-4">
+              {workflow.description}
+            </p>
           )}
 
           {/* Tags */}
           {workflow.tags && workflow.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
               {workflow.tags.map((tag) => (
-                <Link key={tag} href={`/explore?tag=${encodeURIComponent(tag)}`}>
-                  <Badge variant="secondary" className="cursor-pointer hover:bg-muted">
+                <Link
+                  key={tag}
+                  href={`/explore?tag=${encodeURIComponent(tag)}`}
+                >
+                  <Badge
+                    variant="secondary"
+                    className="cursor-pointer hover:bg-muted"
+                  >
                     {tag}
                   </Badge>
                 </Link>
@@ -185,7 +208,12 @@ export function WorkflowDetail({ workflow, similarWorkflows = [] }: WorkflowDeta
             <Download className="mr-2 h-4 w-4" />
             Download DSL
           </Button>
-          <Button variant="outline" size="lg" onClick={handleCopy} className="w-full">
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={handleCopy}
+            className="w-full"
+          >
             {copied ? (
               <>
                 <Check className="mr-2 h-4 w-4 text-green-500" />
@@ -257,8 +285,10 @@ export function WorkflowDetail({ workflow, similarWorkflows = [] }: WorkflowDeta
                   <div className="w-full bg-muted rounded-full h-2.5">
                     <div
                       className={cn(
-                        'h-2.5 rounded-full transition-all',
-                        compatibilityPercent >= 70 ? 'bg-green-500' : 'bg-red-500'
+                        "h-2.5 rounded-full transition-all",
+                        compatibilityPercent >= 70
+                          ? "bg-green-500"
+                          : "bg-red-500",
                       )}
                       style={{ width: `${compatibilityPercent}%` }}
                     />
@@ -305,15 +335,27 @@ export function WorkflowDetail({ workflow, similarWorkflows = [] }: WorkflowDeta
 
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">Knowledge Base</span>
-                <span className={workflow.has_knowledge_base ? 'text-green-600' : 'text-muted-foreground'}>
-                  {workflow.has_knowledge_base ? 'Yes' : 'No'}
+                <span
+                  className={
+                    workflow.has_knowledge_base
+                      ? "text-green-600"
+                      : "text-muted-foreground"
+                  }
+                >
+                  {workflow.has_knowledge_base ? "Yes" : "No"}
                 </span>
               </div>
 
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">Tool Nodes</span>
-                <span className={workflow.has_tool_nodes ? 'text-green-600' : 'text-muted-foreground'}>
-                  {workflow.has_tool_nodes ? 'Yes' : 'No'}
+                <span
+                  className={
+                    workflow.has_tool_nodes
+                      ? "text-green-600"
+                      : "text-muted-foreground"
+                  }
+                >
+                  {workflow.has_tool_nodes ? "Yes" : "No"}
                 </span>
               </div>
             </CardContent>
@@ -333,7 +375,9 @@ export function WorkflowDetail({ workflow, similarWorkflows = [] }: WorkflowDeta
                   className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
                 >
                   <Github className="h-4 w-4" />
-                  <span className="font-medium">{workflow.repo_sources.name}</span>
+                  <span className="font-medium">
+                    {workflow.repo_sources.name}
+                  </span>
                   <ExternalLink className="h-3 w-3 ml-auto" />
                 </a>
               </CardContent>
@@ -351,7 +395,9 @@ export function WorkflowDetail({ workflow, similarWorkflows = [] }: WorkflowDeta
               <Link key={similar.id} href={`/workflow/${similar.slug}`}>
                 <Card className="h-full hover:shadow-lg transition-shadow">
                   <CardHeader>
-                    <CardTitle className="text-lg line-clamp-2">{similar.name}</CardTitle>
+                    <CardTitle className="text-lg line-clamp-2">
+                      {similar.name}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     {similar.description && (
@@ -361,7 +407,9 @@ export function WorkflowDetail({ workflow, similarWorkflows = [] }: WorkflowDeta
                     )}
                     <div className="flex items-center gap-3 mt-3 text-sm text-muted-foreground">
                       <span>{similar.node_count} nodes</span>
-                      <span>{formatNumber(similar.download_count)} downloads</span>
+                      <span>
+                        {formatNumber(similar.download_count)} downloads
+                      </span>
                     </div>
                   </CardContent>
                 </Card>

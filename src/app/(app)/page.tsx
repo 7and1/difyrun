@@ -1,32 +1,48 @@
-import { Suspense } from 'react';
-import { Hero, CategoryGrid, FeaturedWorkflows, ExpertContent } from '@/components/home';
-import { getCategoryStats, getFeaturedWorkflows, getWorkflowStats } from '@/lib/db';
-import { CATEGORIES } from '@/config/categories';
+import { Suspense } from "react";
+import { unstable_cache } from "next/cache";
+import {
+  Hero,
+  CategoryGrid,
+  FeaturedWorkflows,
+  ExpertContent,
+} from "@/components/home";
+import {
+  getCategoryStats,
+  getFeaturedWorkflows,
+  getWorkflowStats,
+} from "@/lib/db";
+import { CATEGORIES } from "@/config/categories";
 
-export const dynamic = 'force-dynamic';
+const getHomePageData = unstable_cache(
+  async () => {
+    const [categoryCountMap, featuredWorkflows, stats] = await Promise.all([
+      getCategoryStats(),
+      getFeaturedWorkflows(6),
+      getWorkflowStats(),
+    ]);
 
-async function getHomePageData() {
-  // Get category counts
-  const categoryCountMap = await getCategoryStats();
+    const categoryCountRecord: Record<string, number> = {};
+    for (const [key, value] of categoryCountMap.entries()) {
+      categoryCountRecord[key] = value;
+    }
 
-  const categories = CATEGORIES.map((cat) => ({
-    ...cat,
-    workflowCount: categoryCountMap.get(cat.id) || 0,
-  }));
+    const categories = CATEGORIES.map((cat) => ({
+      ...cat,
+      workflowCount: categoryCountRecord[cat.id] || 0,
+    }));
 
-  // Get featured workflows (most popular)
-  const featuredWorkflows = await getFeaturedWorkflows(6);
+    return {
+      categories,
+      featuredWorkflows,
+      totalWorkflows: stats.total,
+      totalDownloads: stats.totalDownloads,
+    };
+  },
+  ["home-page-data"],
+  { revalidate: 300 },
+);
 
-  // Get total counts
-  const stats = await getWorkflowStats();
-
-  return {
-    categories,
-    featuredWorkflows,
-    totalWorkflows: stats.total,
-    totalDownloads: stats.totalDownloads,
-  };
-}
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const data = await getHomePageData();
@@ -40,7 +56,9 @@ export default async function HomePage() {
 
       <CategoryGrid categories={data.categories} />
 
-      <Suspense fallback={<div className="py-20 text-center">Loading workflows...</div>}>
+      <Suspense
+        fallback={<div className="py-20 text-center">Loading workflows...</div>}
+      >
         <FeaturedWorkflows workflows={data.featuredWorkflows} />
       </Suspense>
 
@@ -52,18 +70,19 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'WebSite',
-            name: 'DifyRun',
-            description: 'Free Dify AI Workflow Templates & MCP Server Library',
-            url: 'https://difyrun.com',
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "DifyRun",
+            description: "Free Dify AI Workflow Templates & MCP Server Library",
+            url: "https://difyrun.com",
             potentialAction: {
-              '@type': 'SearchAction',
+              "@type": "SearchAction",
               target: {
-                '@type': 'EntryPoint',
-                urlTemplate: 'https://difyrun.com/explore?q={search_term_string}',
+                "@type": "EntryPoint",
+                urlTemplate:
+                  "https://difyrun.com/explore?q={search_term_string}",
               },
-              'query-input': 'required name=search_term_string',
+              "query-input": "required name=search_term_string",
             },
           }),
         }}

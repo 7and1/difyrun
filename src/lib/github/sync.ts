@@ -1,14 +1,20 @@
 // Sync engine - orchestrates GitHub to D1 synchronization
 
-import { getDB, getRepoSources, getRepoSourceById, upsertWorkflow, getWorkflowByContentHash } from '@/lib/db';
-import { fetchFileTree, fetchAllContents, RepoConfig } from './fetcher';
+import {
+  getDB,
+  getRepoSources,
+  getRepoSourceById,
+  upsertWorkflow,
+  getWorkflowByContentHash,
+} from "@/lib/db";
+import { fetchFileTree, fetchAllContents, RepoConfig } from "./fetcher";
 import {
   parseDslContent,
   calculateContentHash,
   generateSlug,
   inferCategory,
   inferTags,
-} from './parser';
+} from "./parser";
 
 export interface SyncResult {
   success: boolean;
@@ -42,7 +48,7 @@ export async function syncAllWorkflows(): Promise<SyncResult> {
   const sources = await getRepoSources(true);
 
   if (!sources || sources.length === 0) {
-    throw new Error('No active repo sources found');
+    throw new Error("No active repo sources found");
   }
 
   const totals: SyncResult = {
@@ -70,17 +76,21 @@ export async function syncAllWorkflows(): Promise<SyncResult> {
 
       // Update repo source stats
       await db
-        .prepare(`
+        .prepare(
+          `
           UPDATE repo_sources
           SET last_synced_at = datetime('now'),
               last_sync_error = NULL,
               total_workflows = ?
           WHERE id = ?
-        `)
+        `,
+        )
         .bind(result.added + result.updated + result.unchanged, source.id)
         .run();
 
-      console.log(`  + ${source.name}: +${result.added} ~${result.updated} =${result.unchanged}`);
+      console.log(
+        `  + ${source.name}: +${result.added} ~${result.updated} =${result.unchanged}`,
+      );
     } catch (error) {
       totals.errors++;
       totals.success = false;
@@ -88,12 +98,17 @@ export async function syncAllWorkflows(): Promise<SyncResult> {
 
       // Log error to database
       await db
-        .prepare(`
+        .prepare(
+          `
           UPDATE repo_sources
           SET last_sync_error = ?
           WHERE id = ?
-        `)
-        .bind(error instanceof Error ? error.message : 'Unknown error', source.id)
+        `,
+        )
+        .bind(
+          error instanceof Error ? error.message : "Unknown error",
+          source.id,
+        )
         .run();
     }
   }
@@ -122,17 +137,19 @@ export async function syncSingleRepo(repoId: string): Promise<SyncResult> {
 
   // Update repo source stats
   await db
-    .prepare(`
+    .prepare(
+      `
       UPDATE repo_sources
       SET last_synced_at = datetime('now'),
           last_sync_error = ?,
           total_workflows = ?
       WHERE id = ?
-    `)
+    `,
+    )
     .bind(
-      result.errors > 0 ? 'Some workflows failed to sync' : null,
+      result.errors > 0 ? "Some workflows failed to sync" : null,
       result.added + result.updated + result.unchanged,
-      source.id
+      source.id,
     )
     .run();
 
@@ -148,7 +165,9 @@ export async function syncSingleRepo(repoId: string): Promise<SyncResult> {
 }
 
 // Sync a repository (internal)
-async function syncRepository(source: RepoSource): Promise<Omit<SyncResult, 'success' | 'duration_ms' | 'timestamp'>> {
+async function syncRepository(
+  source: RepoSource,
+): Promise<Omit<SyncResult, "success" | "duration_ms" | "timestamp">> {
   const db = getDB();
 
   const config: RepoConfig = {
@@ -182,12 +201,12 @@ async function syncRepository(source: RepoSource): Promise<Omit<SyncResult, 'suc
 
   // Step 3: Get existing workflows for this repo (for hash comparison)
   const existingResult = await db
-    .prepare('SELECT slug, content_hash FROM workflows WHERE repo_id = ?')
+    .prepare("SELECT slug, content_hash FROM workflows WHERE repo_id = ?")
     .bind(source.id)
     .all<{ slug: string; content_hash: string }>();
 
   const existingHashMap = new Map(
-    (existingResult.results || []).map(w => [w.slug, w.content_hash])
+    (existingResult.results || []).map((w) => [w.slug, w.content_hash]),
   );
 
   // Step 4: Process each file
@@ -212,10 +231,14 @@ async function syncRepository(source: RepoSource): Promise<Omit<SyncResult, 'suc
       }
 
       // Extract clean name from filename
-      const fileName = filePath.split('/').pop()?.replace(/\.ya?ml$/i, '') || 'Unnamed';
-      const displayName = parsed.name || fileName
-        .replace(/[-_]/g, ' ')
-        .replace(/\b\w/g, c => c.toUpperCase());
+      const fileName =
+        filePath
+          .split("/")
+          .pop()
+          ?.replace(/\.ya?ml$/i, "") || "Unnamed";
+      const displayName =
+        parsed.name ||
+        fileName.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
       // Build workflow record
       const workflowData = {
@@ -224,10 +247,7 @@ async function syncRepository(source: RepoSource): Promise<Omit<SyncResult, 'suc
         name: displayName,
         description: parsed.description,
         category_id: inferCategory(filePath, parsed),
-        tags: [
-          ...(config.defaultTags || []),
-          ...inferTags(filePath, parsed),
-        ],
+        tags: [...(config.defaultTags || []), ...inferTags(filePath, parsed)],
         repo_id: source.id,
         file_path: filePath,
         github_url: `https://github.com/${source.owner}/${source.repo}/blob/${source.branch}/${filePath}`,
@@ -266,14 +286,16 @@ async function updateCategoryCounts(): Promise<void> {
 
   // Get workflow counts per category using GROUP BY
   const counts = await db
-    .prepare('SELECT category_id, COUNT(*) as count FROM workflows GROUP BY category_id')
+    .prepare(
+      "SELECT category_id, COUNT(*) as count FROM workflows GROUP BY category_id",
+    )
     .all<{ category_id: string; count: number }>();
 
   // Update each category
   for (const row of counts.results || []) {
     if (row.category_id) {
       await db
-        .prepare('UPDATE categories SET workflow_count = ? WHERE id = ?')
+        .prepare("UPDATE categories SET workflow_count = ? WHERE id = ?")
         .bind(row.count, row.category_id)
         .run();
     }

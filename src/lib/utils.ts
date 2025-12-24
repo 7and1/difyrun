@@ -1,5 +1,5 @@
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -16,7 +16,7 @@ export function formatNumber(num: number): string {
 }
 
 export function formatDate(date: string | null | undefined): string {
-  if (!date) return 'Unknown';
+  if (!date) return "Unknown";
 
   const d = new Date(date);
   const now = new Date();
@@ -24,8 +24,8 @@ export function formatDate(date: string | null | undefined): string {
 
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
-  if (days === 0) return 'Today';
-  if (days === 1) return 'Yesterday';
+  if (days === 0) return "Today";
+  if (days === 1) return "Yesterday";
   if (days < 7) return `${days} days ago`;
   if (days < 30) return `${Math.floor(days / 7)} weeks ago`;
   if (days < 365) return `${Math.floor(days / 30)} months ago`;
@@ -33,29 +33,28 @@ export function formatDate(date: string | null | undefined): string {
 }
 
 export function formatDateFull(date: string | null | undefined): string {
-  if (!date) return 'Unknown';
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  if (!date) return "Unknown";
+  return new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 }
 
 export function slugify(text: string): string {
   return text
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 }
 
 export function truncate(text: string, length: number): string {
   if (text.length <= length) return text;
-  return text.slice(0, length).trim() + '...';
+  return text.slice(0, length).trim() + "...";
 }
 
 export function absoluteUrl(path: string): string {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://difyrun.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://difyrun.com";
   return `${baseUrl}${path}`;
 }
 

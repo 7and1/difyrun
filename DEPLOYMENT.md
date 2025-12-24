@@ -8,15 +8,15 @@
 
 ## Deployment Summary
 
-| Resource | Status | Details |
-|----------|--------|---------|
-| D1 Database | ✅ Created | `difyrun-db` (04a76343-22cf-4843-a91c-6be7edff7826) |
-| Database Schema | ✅ Applied | 29 queries, 11 tables |
-| Seed Data | ✅ Loaded | 9 categories, 7 repo sources |
-| Worker | ✅ Deployed | difyrun.7and1.workers.dev |
-| GITHUB_TOKEN | ✅ Set | Secret configured |
-| SYNC_SECRET | ✅ Set | Secret configured |
-| OpenNext Context | ✅ Fixed | Using `getCloudflareContext()` from `@opennextjs/cloudflare` |
+| Resource         | Status      | Details                                                      |
+| ---------------- | ----------- | ------------------------------------------------------------ |
+| D1 Database      | ✅ Created  | `difyrun-db` (04a76343-22cf-4843-a91c-6be7edff7826)          |
+| Database Schema  | ✅ Applied  | 29 queries, 11 tables                                        |
+| Seed Data        | ✅ Loaded   | 9 categories, 7 repo sources                                 |
+| Worker           | ✅ Deployed | difyrun.7and1.workers.dev                                    |
+| GITHUB_TOKEN     | ✅ Set      | Secret configured                                            |
+| SYNC_SECRET      | ✅ Set      | Secret configured                                            |
+| OpenNext Context | ✅ Fixed    | Using `getCloudflareContext()` from `@opennextjs/cloudflare` |
 
 ## Quick Commands
 
@@ -51,6 +51,7 @@ curl -X POST https://difyrun.7and1.workers.dev/api/sync \
 ## Configuration Files
 
 ### wrangler.toml
+
 ```toml
 name = "difyrun"
 main = ".open-next/worker.js"
@@ -69,6 +70,7 @@ NEXT_PUBLIC_SITE_URL = "https://difyrun.pages.dev"
 ```
 
 ### open-next.config.ts
+
 ```typescript
 const config: OpenNextConfig = {
   default: {
@@ -98,14 +100,14 @@ const config: OpenNextConfig = {
 
 ## Database Tables
 
-| Table | Purpose |
-|-------|---------|
-| categories | Workflow categories |
-| repo_sources | GitHub repository sources |
-| workflows | Workflow metadata and DSL content |
-| workflows_fts | Full-text search index |
-| workflow_events | View/download tracking |
-| workflow_feedback | User feedback (works/broken) |
+| Table             | Purpose                           |
+| ----------------- | --------------------------------- |
+| categories        | Workflow categories               |
+| repo_sources      | GitHub repository sources         |
+| workflows         | Workflow metadata and DSL content |
+| workflows_fts     | Full-text search index            |
+| workflow_events   | View/download tracking            |
+| workflow_feedback | User feedback (works/broken)      |
 
 ## Custom Domain Setup
 
@@ -113,6 +115,7 @@ To add a custom domain (e.g., difyrun.com):
 
 1. Add domain in Cloudflare Dashboard → Workers & Pages → difyrun → Custom Domains
 2. Or via API:
+
 ```bash
 curl -X POST "https://api.cloudflare.com/client/v4/accounts/{account_id}/workers/scripts/difyrun/routes" \
   -H "Authorization: Bearer {api_token}" \
@@ -123,16 +126,19 @@ curl -X POST "https://api.cloudflare.com/client/v4/accounts/{account_id}/workers
 ## Troubleshooting
 
 ### Check Worker Logs
+
 ```bash
 CLOUDFLARE_API_TOKEN=xxx npx wrangler tail difyrun
 ```
 
 ### Query D1 Database
+
 ```bash
 CLOUDFLARE_API_TOKEN=xxx npx wrangler d1 execute difyrun-db --remote --command "SELECT COUNT(*) FROM workflows"
 ```
 
 ### View Deployment History
+
 ```bash
 CLOUDFLARE_API_TOKEN=xxx npx wrangler deployments list
 ```
@@ -158,23 +164,23 @@ CLOUDFLARE_API_TOKEN=xxx npx wrangler deployments list
 
 ## Environment Variables
 
-| Variable | Type | Description |
-|----------|------|-------------|
-| NEXT_PUBLIC_SITE_URL | var | Public site URL |
-| GITHUB_TOKEN | secret | GitHub PAT for API access |
-| SYNC_SECRET | secret | Auth token for /api/sync |
+| Variable             | Type   | Description               |
+| -------------------- | ------ | ------------------------- |
+| NEXT_PUBLIC_SITE_URL | var    | Public site URL           |
+| GITHUB_TOKEN         | secret | GitHub PAT for API access |
+| SYNC_SECRET          | secret | Auth token for /api/sync  |
 
 ## API Endpoints
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| / | GET | Homepage |
-| /explore | GET | Browse workflows |
-| /explore/[category] | GET | Category page |
-| /workflow/[slug] | GET | Workflow detail |
-| /api/download | GET | Download DSL file |
-| /api/feedback | POST | Submit feedback |
-| /api/search | GET | Search workflows |
-| /api/sync | POST | Trigger GitHub sync |
-| /api/health | GET | Health check |
-| /sitemap.xml | GET | Sitemap |
+| Endpoint            | Method | Description         |
+| ------------------- | ------ | ------------------- |
+| /                   | GET    | Homepage            |
+| /explore            | GET    | Browse workflows    |
+| /explore/[category] | GET    | Category page       |
+| /workflow/[slug]    | GET    | Workflow detail     |
+| /api/download       | GET    | Download DSL file   |
+| /api/feedback       | POST   | Submit feedback     |
+| /api/search         | GET    | Search workflows    |
+| /api/sync           | POST   | Trigger GitHub sync |
+| /api/health         | GET    | Health check        |
+| /sitemap.xml        | GET    | Sitemap             |

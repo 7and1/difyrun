@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from "react";
 import ReactFlow, {
   Controls,
   MiniMap,
@@ -9,14 +9,14 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   Node,
-} from 'reactflow';
-import { AlertCircle, Expand, Minimize } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { CustomNode } from './CustomNode';
-import { parseDslToFlow } from '@/lib/visualizer/dsl-to-flow';
-import { autoLayout } from '@/lib/visualizer/auto-layout';
+} from "reactflow";
+import { AlertCircle, Expand, Minimize } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CustomNode } from "./CustomNode";
+import { parseDslToFlow } from "@/lib/visualizer/dsl-to-flow";
+import { autoLayout } from "@/lib/visualizer/auto-layout";
 
-import 'reactflow/dist/style.css';
+import "reactflow/dist/style.css";
 
 interface DslVisualizerProps {
   dslContent: string;
@@ -47,7 +47,8 @@ export function DslVisualizer({ dslContent, className }: DslVisualizerProps) {
       return {
         nodes: [],
         edges: [],
-        error: error instanceof Error ? error.message : 'Failed to parse workflow',
+        error:
+          error instanceof Error ? error.message : "Failed to parse workflow",
       };
     }
   }, [dslContent]);
@@ -57,7 +58,7 @@ export function DslVisualizer({ dslContent, className }: DslVisualizerProps) {
 
   // Handle node click
   const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
-    console.log('Node clicked:', node);
+    console.log("Node clicked:", node);
   }, []);
 
   // Toggle fullscreen
@@ -68,7 +69,9 @@ export function DslVisualizer({ dslContent, className }: DslVisualizerProps) {
   // Show error state
   if (flowData.error) {
     return (
-      <div className={`flex items-center justify-center rounded-lg border bg-muted/50 p-8 ${className}`}>
+      <div
+        className={`flex items-center justify-center rounded-lg border bg-muted/50 p-8 ${className}`}
+      >
         <div className="text-center">
           <AlertCircle className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
           <h3 className="font-medium text-lg mb-2">Unable to Visualize</h3>
@@ -83,7 +86,9 @@ export function DslVisualizer({ dslContent, className }: DslVisualizerProps) {
   // Show empty state
   if (nodes.length === 0) {
     return (
-      <div className={`flex items-center justify-center rounded-lg border bg-muted/50 p-8 ${className}`}>
+      <div
+        className={`flex items-center justify-center rounded-lg border bg-muted/50 p-8 ${className}`}
+      >
         <div className="text-center">
           <AlertCircle className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
           <h3 className="font-medium text-lg mb-2">No Nodes Found</h3>
@@ -98,9 +103,7 @@ export function DslVisualizer({ dslContent, className }: DslVisualizerProps) {
   return (
     <div
       className={`relative rounded-lg border overflow-hidden ${
-        isFullscreen
-          ? 'fixed inset-4 z-50 bg-background shadow-2xl'
-          : className
+        isFullscreen ? "fixed inset-4 z-50 bg-background shadow-2xl" : className
       }`}
     >
       {/* Fullscreen toggle */}
@@ -134,13 +137,13 @@ export function DslVisualizer({ dslContent, className }: DslVisualizerProps) {
         minZoom={0.1}
         maxZoom={2}
         defaultEdgeOptions={{
-          type: 'smoothstep',
+          type: "smoothstep",
         }}
         proOptions={{ hideAttribution: true }}
       >
         <Controls className="!bg-background !border !shadow" />
         <MiniMap
-          nodeColor={(node) => node.data?.color || '#94a3b8'}
+          nodeColor={(node) => node.data?.color || "#94a3b8"}
           className="!bg-background !border"
         />
         <Background

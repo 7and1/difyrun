@@ -1,5 +1,5 @@
-import { WorkflowCard } from './WorkflowCard';
-import { Loader2 } from 'lucide-react';
+import { WorkflowCard } from "./WorkflowCard";
+import { Loader2 } from "lucide-react";
 
 interface Workflow {
   id: string;
@@ -30,7 +30,7 @@ interface WorkflowGridProps {
 export function WorkflowGrid({
   workflows,
   isLoading = false,
-  emptyMessage = 'No workflows found',
+  emptyMessage = "No workflows found",
 }: WorkflowGridProps) {
   if (isLoading) {
     return (
@@ -49,9 +49,7 @@ export function WorkflowGrid({
         <div className="text-center">
           <div className="text-6xl mb-4">🔍</div>
           <h3 className="text-lg font-medium mb-2">No Results Found</h3>
-          <p className="text-muted-foreground max-w-md">
-            {emptyMessage}
-          </p>
+          <p className="text-muted-foreground max-w-md">{emptyMessage}</p>
         </div>
       </div>
     );

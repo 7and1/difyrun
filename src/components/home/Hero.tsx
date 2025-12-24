@@ -1,8 +1,15 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { ArrowRight, Download, Github, Sparkles, Zap, Layers } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import Link from "next/link";
+import {
+  ArrowRight,
+  Download,
+  Github,
+  Sparkles,
+  Zap,
+  Layers,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface HeroProps {
   totalWorkflows?: number;
@@ -21,7 +28,9 @@ export function Hero({ totalWorkflows = 100, totalDownloads = 0 }: HeroProps) {
       {/* Grid pattern */}
       <div
         className="absolute inset-0 bg-[linear-gradient(to_right,#8882_1px,transparent_1px),linear-gradient(to_bottom,#8882_1px,transparent_1px)] bg-[size:24px_24px]"
-        style={{ mask: 'radial-gradient(ellipse 80% 50% at 50% 50%, black 40%, transparent 100%)' }}
+        style={{
+          mask: "radial-gradient(ellipse 80% 50% at 50% 50%, black 40%, transparent 100%)",
+        }}
       />
 
       <div className="container relative">
@@ -30,7 +39,8 @@ export function Hero({ totalWorkflows = 100, totalDownloads = 0 }: HeroProps) {
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border bg-background/50 backdrop-blur px-4 py-1.5 text-sm">
             <Sparkles className="h-4 w-4 text-yellow-500" />
             <span className="text-muted-foreground">
-              Compatible with <strong className="text-foreground">Dify v1.6+</strong> and MCP
+              Compatible with{" "}
+              <strong className="text-foreground">Dify v1.6+</strong> and MCP
             </span>
           </div>
 
@@ -45,14 +55,17 @@ export function Hero({ totalWorkflows = 100, totalDownloads = 0 }: HeroProps) {
 
           {/* Subtitle */}
           <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground sm:text-xl">
-            Discover {totalWorkflows}+ free workflow templates. Download DSL files for RAG,
-            AI Agents, MCP Servers, and automation. Better than n8n for LLM tasks.
+            Discover {totalWorkflows}+ free workflow templates. Download DSL
+            files for RAG, AI Agents, MCP Servers, and automation. Better than
+            n8n for LLM tasks.
           </p>
 
           {/* Stats */}
           <div className="mb-10 flex flex-wrap justify-center gap-8 text-center">
             <div>
-              <div className="text-3xl font-bold text-foreground">{totalWorkflows}+</div>
+              <div className="text-3xl font-bold text-foreground">
+                {totalWorkflows}+
+              </div>
               <div className="text-sm text-muted-foreground">Templates</div>
             </div>
             <div className="hidden sm:block w-px bg-border" />
@@ -81,13 +94,20 @@ export function Hero({ totalWorkflows = 100, totalDownloads = 0 }: HeroProps) {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/explore">
-              <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-base px-8">
+              <Button
+                size="lg"
+                className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-base px-8"
+              >
                 Browse Templates
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
             <Link href="/explore/mcp">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto text-base px-8">
+              <Button
+                size="lg"
+                variant="outline"
+                className="w-full sm:w-auto text-base px-8"
+              >
                 <Zap className="mr-2 h-4 w-4 text-purple-500" />
                 Explore MCP
               </Button>

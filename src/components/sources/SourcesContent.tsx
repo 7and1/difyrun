@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Shield,
@@ -8,8 +8,8 @@ import {
   Users,
   FileCheck,
   AlertTriangle,
-  Lightbulb
-} from 'lucide-react';
+  Lightbulb,
+} from "lucide-react";
 
 export function SourcesContent() {
   return (
@@ -21,18 +21,22 @@ export function SourcesContent() {
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600">
               <Shield className="h-5 w-5 text-white" />
             </div>
-            <h2 className="text-2xl font-bold">Why We Curate Sources Carefully</h2>
+            <h2 className="text-2xl font-bold">
+              Why We Curate Sources Carefully
+            </h2>
           </div>
           <div className="prose prose-gray dark:prose-invert max-w-none">
             <p className="text-muted-foreground leading-relaxed">
-              Not all workflow templates are created equal. Some are outdated, others have security
-              issues, and many just don&apos;t work with current Dify versions. That&apos;s why we don&apos;t just
-              scrape every DSL file we find — we curate from trusted sources.
+              Not all workflow templates are created equal. Some are outdated,
+              others have security issues, and many just don&apos;t work with
+              current Dify versions. That&apos;s why we don&apos;t just scrape
+              every DSL file we find — we curate from trusted sources.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Every repository in our list has been manually reviewed. We look at the maintainer&apos;s
-              reputation, the quality of the workflows, how often they&apos;re updated, and whether they
-              follow Dify best practices. This means you can download any template from DifyRun
+              Every repository in our list has been manually reviewed. We look
+              at the maintainer&apos;s reputation, the quality of the workflows,
+              how often they&apos;re updated, and whether they follow Dify best
+              practices. This means you can download any template from DifyRun
               with confidence.
             </p>
           </div>
@@ -48,7 +52,8 @@ export function SourcesContent() {
               </div>
               <h4 className="font-medium mb-2">Discovery</h4>
               <p className="text-sm text-muted-foreground">
-                We actively search GitHub, community forums, and Discord for quality Dify repositories.
+                We actively search GitHub, community forums, and Discord for
+                quality Dify repositories.
               </p>
             </div>
             <div className="text-center">
@@ -57,7 +62,8 @@ export function SourcesContent() {
               </div>
               <h4 className="font-medium mb-2">Validation</h4>
               <p className="text-sm text-muted-foreground">
-                Each repo is tested for valid DSL structure, proper formatting, and Dify v1.6+ compatibility.
+                Each repo is tested for valid DSL structure, proper formatting,
+                and Dify v1.6+ compatibility.
               </p>
             </div>
             <div className="text-center">
@@ -66,7 +72,8 @@ export function SourcesContent() {
               </div>
               <h4 className="font-medium mb-2">Attribution</h4>
               <p className="text-sm text-muted-foreground">
-                We always credit original authors and link back to source repos. Your work, your credit.
+                We always credit original authors and link back to source repos.
+                Your work, your credit.
               </p>
             </div>
             <div className="text-center">
@@ -75,7 +82,8 @@ export function SourcesContent() {
               </div>
               <h4 className="font-medium mb-2">Sync</h4>
               <p className="text-sm text-muted-foreground">
-                Automated daily syncs keep templates current. New workflows appear within 24 hours of commit.
+                Automated daily syncs keep templates current. New workflows
+                appear within 24 hours of commit.
               </p>
             </div>
           </div>
@@ -91,23 +99,38 @@ export function SourcesContent() {
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span><strong>Active maintenance:</strong> Regular commits and updates to DSL files</span>
+                <span>
+                  <strong>Active maintenance:</strong> Regular commits and
+                  updates to DSL files
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span><strong>Quality workflows:</strong> Clear structure, proper node naming, documentation</span>
+                <span>
+                  <strong>Quality workflows:</strong> Clear structure, proper
+                  node naming, documentation
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span><strong>Dify v1.6+ support:</strong> Templates using current Dify features and syntax</span>
+                <span>
+                  <strong>Dify v1.6+ support:</strong> Templates using current
+                  Dify features and syntax
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span><strong>Open source license:</strong> MIT, Apache 2.0, or similar permissive license</span>
+                <span>
+                  <strong>Open source license:</strong> MIT, Apache 2.0, or
+                  similar permissive license
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span><strong>Community trust:</strong> Stars, forks, and positive community feedback</span>
+                <span>
+                  <strong>Community trust:</strong> Stars, forks, and positive
+                  community feedback
+                </span>
               </li>
             </ul>
           </div>
@@ -120,23 +143,38 @@ export function SourcesContent() {
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li className="flex items-start gap-2">
                 <span className="text-red-500 mt-1">✗</span>
-                <span><strong>Abandoned repos:</strong> No updates in 6+ months with Dify version drift</span>
+                <span>
+                  <strong>Abandoned repos:</strong> No updates in 6+ months with
+                  Dify version drift
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-red-500 mt-1">✗</span>
-                <span><strong>Invalid DSL:</strong> Files that fail to import or have parsing errors</span>
+                <span>
+                  <strong>Invalid DSL:</strong> Files that fail to import or
+                  have parsing errors
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-red-500 mt-1">✗</span>
-                <span><strong>Security concerns:</strong> Hardcoded API keys, external data collection</span>
+                <span>
+                  <strong>Security concerns:</strong> Hardcoded API keys,
+                  external data collection
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-red-500 mt-1">✗</span>
-                <span><strong>License issues:</strong> Unclear or restrictive licensing terms</span>
+                <span>
+                  <strong>License issues:</strong> Unclear or restrictive
+                  licensing terms
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-red-500 mt-1">✗</span>
-                <span><strong>Low quality:</strong> Untested templates, no documentation, poor naming</span>
+                <span>
+                  <strong>Low quality:</strong> Untested templates, no
+                  documentation, poor naming
+                </span>
               </li>
             </ul>
           </div>
@@ -153,43 +191,56 @@ export function SourcesContent() {
 
           <div className="prose prose-gray dark:prose-invert max-w-none">
             <p className="text-muted-foreground">
-              Every day, our automated system checks each source repository for changes. Here&apos;s what happens:
+              Every day, our automated system checks each source repository for
+              changes. Here&apos;s what happens:
             </p>
 
             <ol className="space-y-4 mt-6 not-prose">
               <li className="flex items-start gap-4 p-4 bg-background/50 rounded-lg">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-white text-sm font-bold shrink-0">1</span>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-white text-sm font-bold shrink-0">
+                  1
+                </span>
                 <div>
                   <p className="font-medium">Fetch Changes</p>
                   <p className="text-sm text-muted-foreground">
-                    We use the GitHub API to check for new commits and file changes in each source repository.
+                    We use the GitHub API to check for new commits and file
+                    changes in each source repository.
                   </p>
                 </div>
               </li>
               <li className="flex items-start gap-4 p-4 bg-background/50 rounded-lg">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-white text-sm font-bold shrink-0">2</span>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-white text-sm font-bold shrink-0">
+                  2
+                </span>
                 <div>
                   <p className="font-medium">Parse DSL Files</p>
                   <p className="text-sm text-muted-foreground">
-                    New and modified YAML files are parsed to extract workflow metadata — node counts, types, descriptions.
+                    New and modified YAML files are parsed to extract workflow
+                    metadata — node counts, types, descriptions.
                   </p>
                 </div>
               </li>
               <li className="flex items-start gap-4 p-4 bg-background/50 rounded-lg">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-white text-sm font-bold shrink-0">3</span>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-white text-sm font-bold shrink-0">
+                  3
+                </span>
                 <div>
                   <p className="font-medium">Categorize Automatically</p>
                   <p className="text-sm text-muted-foreground">
-                    Based on node types and content, we auto-categorize workflows (RAG, Agents, MCP, etc.) for easy browsing.
+                    Based on node types and content, we auto-categorize
+                    workflows (RAG, Agents, MCP, etc.) for easy browsing.
                   </p>
                 </div>
               </li>
               <li className="flex items-start gap-4 p-4 bg-background/50 rounded-lg">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-white text-sm font-bold shrink-0">4</span>
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500 text-white text-sm font-bold shrink-0">
+                  4
+                </span>
                 <div>
                   <p className="font-medium">Update Database</p>
                   <p className="text-sm text-muted-foreground">
-                    Workflows are indexed, searchable, and available for download — usually within 24 hours of the original commit.
+                    Workflows are indexed, searchable, and available for
+                    download — usually within 24 hours of the original commit.
                   </p>
                 </div>
               </li>
@@ -204,16 +255,27 @@ export function SourcesContent() {
               <Lightbulb className="h-5 w-5 text-green-500" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-2">A Note on Transparency</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                A Note on Transparency
+              </h3>
               <p className="text-sm text-muted-foreground">
-                DifyRun is a community project. We don&apos;t modify or alter the original workflows — what you
-                download is exactly what exists in the source repository. We believe in transparency: you can
-                always click through to the original GitHub repo to verify the source, read the author&apos;s
-                documentation, and even contribute improvements directly.
+                DifyRun is a community project. We don&apos;t modify or alter
+                the original workflows — what you download is exactly what
+                exists in the source repository. We believe in transparency: you
+                can always click through to the original GitHub repo to verify
+                the source, read the author&apos;s documentation, and even
+                contribute improvements directly.
               </p>
               <p className="text-sm text-muted-foreground mt-2">
-                If you notice any issues with a workflow or have concerns about a source repository,
-                please reach out at <a href="mailto:hello@difyrun.com" className="text-blue-600 hover:text-blue-700">hello@difyrun.com</a>.
+                If you notice any issues with a workflow or have concerns about
+                a source repository, please reach out at{" "}
+                <a
+                  href="mailto:hello@difyrun.com"
+                  className="text-blue-600 hover:text-blue-700"
+                >
+                  hello@difyrun.com
+                </a>
+                .
               </p>
             </div>
           </div>

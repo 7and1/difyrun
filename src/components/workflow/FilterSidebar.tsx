@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useCallback, useTransition } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import { Filter, Check, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { CATEGORIES, getCategoryEmoji } from '@/config/categories';
+import { useCallback, useMemo, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { Filter, Check, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { CATEGORIES, getCategoryEmoji } from "@/config/categories";
 
 interface FilterSidebarProps {
   selectedCategory?: string;
@@ -23,6 +23,39 @@ export function FilterSidebar({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
+  const queryCategory = searchParams.get("category");
+  const categoryFromSegment = Boolean(selectedCategory && !queryCategory);
+  const currentCategorySlug = categoryFromSegment
+    ? selectedCategory
+    : queryCategory || undefined;
+  const categorySegment = categoryFromSegment ? selectedCategory : null;
+  const activeCategoryMeta = useMemo(() => {
+    if (!currentCategorySlug) return undefined;
+    return CATEGORIES.find((cat) => cat.slug === currentCategorySlug);
+  }, [currentCategorySlug]);
+
+  const composeExploreUrl = useCallback(
+    (params: URLSearchParams, categorySlug?: string | null) => {
+      const queryString = params.toString();
+      if (categorySlug) {
+        return queryString
+          ? `/explore/${categorySlug}?${queryString}`
+          : `/explore/${categorySlug}`;
+      }
+      return queryString ? `/explore?${queryString}` : "/explore";
+    },
+    [],
+  );
+
+  const buildCategoryHref = useCallback(
+    (slug?: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("page");
+      params.delete("category");
+      return composeExploreUrl(params, slug ?? null);
+    },
+    [composeExploreUrl, searchParams],
+  );
 
   // Handle tag toggle
   const toggleTag = useCallback(
@@ -31,40 +64,49 @@ export function FilterSidebar({
         const params = new URLSearchParams(searchParams.toString());
 
         // Get current tags
-        const currentTags = params.getAll('tag');
+        const currentTags = params.getAll("tag");
 
         // Toggle tag
         if (currentTags.includes(tag)) {
           // Remove tag
-          params.delete('tag');
+          params.delete("tag");
           currentTags
             .filter((t) => t !== tag)
-            .forEach((t) => params.append('tag', t));
+            .forEach((t) => params.append("tag", t));
         } else {
           // Add tag
-          params.append('tag', tag);
+          params.append("tag", tag);
         }
 
         // Reset page
-        params.delete('page');
+        params.delete("page");
 
-        router.push(`/explore?${params.toString()}`);
+        router.push(composeExploreUrl(params, categorySegment));
       });
     },
-    [router, searchParams]
+    [router, searchParams, composeExploreUrl, categorySegment],
   );
 
   // Clear all filters
   const clearFilters = useCallback(() => {
     startTransition(() => {
       const params = new URLSearchParams();
-      const q = searchParams.get('q');
-      if (q) params.set('q', q);
-      router.push(`/explore?${params.toString()}`);
+      const q = searchParams.get("q");
+      if (q) params.set("q", q);
+      router.push(composeExploreUrl(params, null));
     });
-  }, [router, searchParams]);
+  }, [router, searchParams, composeExploreUrl]);
 
-  const hasFilters = selectedCategory || selectedTags.length > 0;
+  const removeCategory = useCallback(() => {
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("category");
+      params.delete("page");
+      router.push(composeExploreUrl(params, null));
+    });
+  }, [router, searchParams, composeExploreUrl]);
+
+  const hasFilters = Boolean(currentCategorySlug) || selectedTags.length > 0;
 
   return (
     <aside className="w-full lg:w-64 shrink-0">
@@ -94,37 +136,47 @@ export function FilterSidebar({
           <div className="space-y-1">
             {/* All categories option */}
             <Link
-              href="/explore"
+              href={buildCategoryHref()}
               className={cn(
-                'flex items-center justify-between px-3 py-2 rounded-md text-sm transition-colors',
-                !selectedCategory
-                  ? 'bg-primary/10 text-primary font-medium'
-                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
+                "flex items-center justify-between px-3 py-2 rounded-md text-sm transition-colors",
+                !currentCategorySlug
+                  ? "bg-primary/10 text-primary font-medium"
+                  : "hover:bg-muted text-muted-foreground hover:text-foreground",
               )}
             >
               <span className="flex items-center gap-2">
                 <span>📁</span>
-                All Categories
+                <span className="flex flex-col leading-tight">
+                  <span>All Categories</span>
+                  <span className="text-xs text-muted-foreground">
+                    全部分类
+                  </span>
+                </span>
               </span>
-              {!selectedCategory && <Check className="h-4 w-4" />}
+              {!currentCategorySlug && <Check className="h-4 w-4" />}
             </Link>
 
             {CATEGORIES.map((category) => (
               <Link
                 key={category.id}
-                href={`/explore/${category.slug}`}
+                href={buildCategoryHref(category.slug)}
                 className={cn(
-                  'flex items-center justify-between px-3 py-2 rounded-md text-sm transition-colors',
-                  selectedCategory === category.slug
-                    ? 'bg-primary/10 text-primary font-medium'
-                    : 'hover:bg-muted text-muted-foreground hover:text-foreground'
+                  "flex items-center justify-between px-3 py-2 rounded-md text-sm transition-colors",
+                  currentCategorySlug === category.slug
+                    ? "bg-primary/10 text-primary font-medium"
+                    : "hover:bg-muted text-muted-foreground hover:text-foreground",
                 )}
               >
                 <span className="flex items-center gap-2">
                   <span>{getCategoryEmoji(category.id)}</span>
-                  {category.name}
+                  <span className="flex flex-col leading-tight">
+                    <span>{category.name}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {category.nameCn}
+                    </span>
+                  </span>
                 </span>
-                {selectedCategory === category.slug && (
+                {currentCategorySlug === category.slug && (
                   <Check className="h-4 w-4" />
                 )}
               </Link>
@@ -145,12 +197,12 @@ export function FilterSidebar({
                   className="focus:outline-none"
                 >
                   <Badge
-                    variant={selectedTags.includes(tag) ? 'default' : 'outline'}
+                    variant={selectedTags.includes(tag) ? "default" : "outline"}
                     className={cn(
-                      'cursor-pointer transition-colors',
+                      "cursor-pointer transition-colors",
                       selectedTags.includes(tag)
-                        ? 'bg-primary hover:bg-primary/80'
-                        : 'hover:bg-muted'
+                        ? "bg-primary hover:bg-primary/80"
+                        : "hover:bg-muted",
                     )}
                   >
                     {tag}
@@ -169,20 +221,35 @@ export function FilterSidebar({
           <div>
             <h3 className="text-sm font-medium mb-3">Active Filters</h3>
             <div className="flex flex-wrap gap-2">
-              {selectedCategory && (
+              {currentCategorySlug && (
                 <Badge variant="secondary" className="gap-1">
-                  {CATEGORIES.find((c) => c.slug === selectedCategory)?.name}
-                  <Link
-                    href={`/explore${searchParams.toString() ? `?${searchParams.toString().replace(/category=[^&]*&?/, '')}` : ''}`}
+                  <span className="flex flex-col leading-tight">
+                    <span>
+                      {activeCategoryMeta?.name || currentCategorySlug}
+                    </span>
+                    {activeCategoryMeta?.nameCn && (
+                      <span className="text-[10px] text-muted-foreground">
+                        {activeCategoryMeta.nameCn}
+                      </span>
+                    )}
+                  </span>
+                  <button
+                    onClick={removeCategory}
+                    className="focus:outline-none"
+                    aria-label="Remove category"
                   >
                     <X className="h-3 w-3 cursor-pointer" />
-                  </Link>
+                  </button>
                 </Badge>
               )}
               {selectedTags.map((tag) => (
                 <Badge key={tag} variant="secondary" className="gap-1">
                   {tag}
-                  <button onClick={() => toggleTag(tag)} className="focus:outline-none">
+                  <button
+                    onClick={() => toggleTag(tag)}
+                    className="focus:outline-none"
+                    aria-label={`Remove ${tag}`}
+                  >
                     <X className="h-3 w-3 cursor-pointer" />
                   </button>
                 </Badge>

@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { WorkflowCard } from '@/components/workflow/WorkflowCard';
+import Link from "next/link";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { WorkflowCard } from "@/components/workflow/WorkflowCard";
 
 interface Workflow {
   id: string;
@@ -69,7 +69,10 @@ export function FeaturedWorkflows({ workflows }: FeaturedWorkflowsProps) {
             Don&apos;t see what you need? Browse our complete collection.
           </p>
           <Link href="/explore">
-            <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+            >
               Explore All Templates
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>

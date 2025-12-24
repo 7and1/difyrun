@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import { Zap, Github, Twitter, ExternalLink, Mail } from 'lucide-react';
-import { CATEGORIES } from '@/config/categories';
+import Link from "next/link";
+import { Zap, Github, Twitter, ExternalLink, Mail } from "lucide-react";
+import { CATEGORIES } from "@/config/categories";
 
 export function Footer() {
   return (
@@ -13,24 +13,29 @@ export function Footer() {
             <h3 className="font-semibold text-lg mb-3">What is Dify AI?</h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
               <strong>Dify</strong> is an open-source platform for building
-              agentic AI applications. With <strong>100,000+ GitHub stars</strong>,
-              it combines visual workflow orchestration, <strong>RAG pipelines</strong>,
-              agent capabilities, and model management. Unlike <strong>n8n</strong>
-              which focuses on general automation, Dify specializes in LLM-native
-              features like knowledge bases, vector search, and
+              agentic AI applications. With{" "}
+              <strong>100,000+ GitHub stars</strong>, it combines visual
+              workflow orchestration, <strong>RAG pipelines</strong>, agent
+              capabilities, and model management. Unlike <strong>n8n</strong>
+              which focuses on general automation, Dify specializes in
+              LLM-native features like knowledge bases, vector search, and
               <strong> MCP (Model Context Protocol)</strong> integration.
             </p>
           </div>
 
           {/* Why Use DifyRun Templates? */}
           <div>
-            <h3 className="font-semibold text-lg mb-3">Why Use DifyRun Templates?</h3>
+            <h3 className="font-semibold text-lg mb-3">
+              Why Use DifyRun Templates?
+            </h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              DifyRun aggregates <strong>100+ workflow templates</strong> from
-              7 community repositories. Every <strong>DSL file</strong> is free
-              to download and import into your Dify instance. Our visual preview
-              lets you see the workflow structure before downloading. Perfect for
-              <strong> Docker deployments</strong>, cloud setups, and local development.
+              DifyRun aggregates <strong>100+ workflow templates</strong> from 7
+              community repositories. Every <strong>DSL file</strong> is free to
+              download and import into your Dify instance. Our visual preview
+              lets you see the workflow structure before downloading. Perfect
+              for
+              <strong> Docker deployments</strong>, cloud setups, and local
+              development.
             </p>
           </div>
 
@@ -38,11 +43,12 @@ export function Footer() {
           <div>
             <h3 className="font-semibold text-lg mb-3">What is MCP?</h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              <strong>MCP (Model Context Protocol)</strong> is Anthropic&apos;s open
-              standard for connecting AI models to external tools — think of it
-              as the USB-C for AI. Dify v1.6.0 added <strong>native two-way
-              MCP support</strong>, letting you call any MCP server (like Zapier
-              with 7,000+ apps) or publish your Dify agents as MCP endpoints for
+              <strong>MCP (Model Context Protocol)</strong> is Anthropic&apos;s
+              open standard for connecting AI models to external tools — think
+              of it as the USB-C for AI. Dify v1.6.0 added{" "}
+              <strong>native two-way MCP support</strong>, letting you call any
+              MCP server (like Zapier with 7,000+ apps) or publish your Dify
+              agents as MCP endpoints for
               <strong> Claude Desktop</strong> and <strong>Cursor</strong>.
             </p>
           </div>
@@ -62,8 +68,9 @@ export function Footer() {
                 <span className="text-lg font-bold">DifyRun</span>
               </Link>
               <p className="text-sm text-muted-foreground mb-4">
-                The ultimate Dify AI workflow and MCP server library. Built by AI enthusiasts
-                who believe the best tools should be free and accessible.
+                The ultimate Dify AI workflow and MCP server library. Built by
+                AI enthusiasts who believe the best tools should be free and
+                accessible.
               </p>
               <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
                 <Mail className="h-4 w-4" />
@@ -149,6 +156,26 @@ export function Footer() {
                     Source Repos
                   </Link>
                 </li>
+                <li>
+                  <a
+                    href="https://n8n-library.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    n8n Library <ExternalLink className="h-3 w-3" />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://public-api.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Public API <ExternalLink className="h-3 w-3" />
+                  </a>
+                </li>
               </ul>
             </div>
 
@@ -207,7 +234,8 @@ export function Footer() {
         <div className="container py-4">
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 text-sm text-muted-foreground">
             <p>
-              © {new Date().getFullYear()} DifyRun. Not affiliated with Dify AI Ltd.
+              © {new Date().getFullYear()} DifyRun. Not affiliated with Dify AI
+              Ltd.
             </p>
           </div>
         </div>

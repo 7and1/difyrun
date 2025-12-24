@@ -109,7 +109,7 @@ export interface RepoSource {
 export interface WorkflowEvent {
   id: number;
   workflow_id: string;
-  event_type: 'view' | 'download' | 'copy' | 'preview';
+  event_type: "view" | "download" | "copy" | "preview";
   user_agent: string | null;
   country: string | null;
   referer: string | null;
@@ -120,7 +120,7 @@ export interface WorkflowEvent {
 export interface WorkflowFeedback {
   id: string;
   workflow_id: string;
-  feedback_type: 'works' | 'broken';
+  feedback_type: "works" | "broken";
   dify_version: string | null;
   comment: string | null;
   ip_hash: string | null;

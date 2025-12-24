@@ -1,24 +1,34 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
-import { Github, ExternalLink, Star, Package } from 'lucide-react';
-import { getRepoSources } from '@/lib/db';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { SourcesContent } from '@/components/sources';
-import { formatDate, formatNumber } from '@/lib/utils';
+import { Metadata } from "next";
+import Link from "next/link";
+import { Github, ExternalLink, Star, Package } from "lucide-react";
+import { getRepoSources } from "@/lib/db";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { SourcesContent } from "@/components/sources";
+import { formatDate, formatNumber } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: 'Source Repositories - DifyRun Workflow Sources',
-  description: 'Explore the community repositories that power DifyRun. We aggregate workflows from 7+ trusted GitHub sources.',
+  title: "Source Repositories - DifyRun Workflow Sources",
+  description:
+    "Explore the community repositories that power DifyRun. We aggregate workflows from 7+ trusted GitHub sources.",
 };
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function SourcesPage() {
   const sources = await getRepoSources(true);
 
-  const totalWorkflows = sources.reduce((sum, s) => sum + (s.total_workflows || 0), 0);
+  const totalWorkflows = sources.reduce(
+    (sum, s) => sum + (s.total_workflows || 0),
+    0,
+  );
 
   return (
     <div className="container py-8">
@@ -26,8 +36,9 @@ export default async function SourcesPage() {
       <div className="max-w-3xl mb-12">
         <h1 className="text-3xl font-bold mb-4">Source Repositories</h1>
         <p className="text-lg text-muted-foreground mb-6">
-          DifyRun aggregates workflow templates from {sources.length} community repositories,
-          bringing you {totalWorkflows}+ curated Dify DSL files in one place.
+          DifyRun aggregates workflow templates from {sources.length} community
+          repositories, bringing you {totalWorkflows}+ curated Dify DSL files in
+          one place.
         </p>
         <p className="text-muted-foreground">
           We respect all original authors and link back to source repositories.
@@ -45,7 +56,9 @@ export default async function SourcesPage() {
         </Card>
         <Card>
           <CardContent className="pt-6">
-            <div className="text-3xl font-bold">{formatNumber(totalWorkflows)}</div>
+            <div className="text-3xl font-bold">
+              {formatNumber(totalWorkflows)}
+            </div>
             <p className="text-sm text-muted-foreground">Total Workflows</p>
           </CardContent>
         </Card>
@@ -111,7 +124,10 @@ export default async function SourcesPage() {
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Package className="h-4 w-4" />
                   <span>
-                    <strong className="text-foreground">{source.total_workflows || 0}</strong> workflows
+                    <strong className="text-foreground">
+                      {source.total_workflows || 0}
+                    </strong>{" "}
+                    workflows
                   </span>
                 </div>
 
@@ -140,7 +156,8 @@ export default async function SourcesPage() {
                   href={`/explore?source=${source.id}`}
                   className="text-sm text-primary hover:underline"
                 >
-                  Browse {source.total_workflows || 0} workflows from this source →
+                  Browse {source.total_workflows || 0} workflows from this
+                  source →
                 </Link>
               </div>
             </CardContent>
@@ -151,10 +168,12 @@ export default async function SourcesPage() {
       {/* Add your repo CTA */}
       <Card className="mt-12 bg-muted/50">
         <CardContent className="py-8 text-center">
-          <h3 className="text-lg font-semibold mb-2">Have a Dify workflow repository?</h3>
+          <h3 className="text-lg font-semibold mb-2">
+            Have a Dify workflow repository?
+          </h3>
           <p className="text-muted-foreground mb-4">
-            We&apos;d love to include your workflows in DifyRun. Open an issue on GitHub
-            and we&apos;ll review your submission.
+            We&apos;d love to include your workflows in DifyRun. Open an issue
+            on GitHub and we&apos;ll review your submission.
           </p>
           <a
             href="https://github.com/langgenius/dify"

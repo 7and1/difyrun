@@ -1,10 +1,10 @@
 // Auto-layout algorithm using Dagre
 
-import dagre from '@dagrejs/dagre';
-import { Node, Edge } from 'reactflow';
+import dagre from "@dagrejs/dagre";
+import { Node, Edge } from "reactflow";
 
 interface LayoutOptions {
-  direction: 'TB' | 'LR' | 'BT' | 'RL';
+  direction: "TB" | "LR" | "BT" | "RL";
   nodeWidth: number;
   nodeHeight: number;
   nodeSep: number;
@@ -12,7 +12,7 @@ interface LayoutOptions {
 }
 
 const DEFAULT_OPTIONS: LayoutOptions = {
-  direction: 'LR', // Left to right
+  direction: "LR", // Left to right
   nodeWidth: 200,
   nodeHeight: 80,
   nodeSep: 50,
@@ -22,14 +22,14 @@ const DEFAULT_OPTIONS: LayoutOptions = {
 export function autoLayout(
   nodes: Node[],
   edges: Edge[],
-  options: Partial<LayoutOptions> = {}
+  options: Partial<LayoutOptions> = {},
 ): Node[] {
   const opts = { ...DEFAULT_OPTIONS, ...options };
 
   // Check if layout is needed
-  const needsLayout = nodes.every(node =>
-    !node.position ||
-    (node.position.x === 0 && node.position.y === 0)
+  const needsLayout = nodes.every(
+    (node) =>
+      !node.position || (node.position.x === 0 && node.position.y === 0),
   );
 
   if (!needsLayout && nodes.length > 0) {

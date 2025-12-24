@@ -141,19 +141,43 @@ Feel free to ask about any of these, or browse our 100+ templates at DifyRun!`,
 export function getFallbackResponse(query: string): string {
   const lowerQuery = query.toLowerCase();
 
-  if (lowerQuery.includes('import') || lowerQuery.includes('download') || lowerQuery.includes('dsl')) {
+  if (
+    lowerQuery.includes("import") ||
+    lowerQuery.includes("download") ||
+    lowerQuery.includes("dsl")
+  ) {
     return FALLBACK_RESPONSES.import;
   }
-  if (lowerQuery.includes('mcp') || lowerQuery.includes('model context protocol') || lowerQuery.includes('tool')) {
+  if (
+    lowerQuery.includes("mcp") ||
+    lowerQuery.includes("model context protocol") ||
+    lowerQuery.includes("tool")
+  ) {
     return FALLBACK_RESPONSES.mcp;
   }
-  if (lowerQuery.includes('workflow') || lowerQuery.includes('chatbot') || lowerQuery.includes('agent') || lowerQuery.includes('mode') || lowerQuery.includes('type')) {
+  if (
+    lowerQuery.includes("workflow") ||
+    lowerQuery.includes("chatbot") ||
+    lowerQuery.includes("agent") ||
+    lowerQuery.includes("mode") ||
+    lowerQuery.includes("type")
+  ) {
     return FALLBACK_RESPONSES.workflow;
   }
-  if (lowerQuery.includes('rag') || lowerQuery.includes('knowledge') || lowerQuery.includes('retrieval') || lowerQuery.includes('document')) {
+  if (
+    lowerQuery.includes("rag") ||
+    lowerQuery.includes("knowledge") ||
+    lowerQuery.includes("retrieval") ||
+    lowerQuery.includes("document")
+  ) {
     return FALLBACK_RESPONSES.rag;
   }
-  if (lowerQuery.includes('cloud') || lowerQuery.includes('self-host') || lowerQuery.includes('docker') || lowerQuery.includes('deploy')) {
+  if (
+    lowerQuery.includes("cloud") ||
+    lowerQuery.includes("self-host") ||
+    lowerQuery.includes("docker") ||
+    lowerQuery.includes("deploy")
+  ) {
     return FALLBACK_RESPONSES.cloud;
   }
 

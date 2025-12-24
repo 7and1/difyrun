@@ -18,10 +18,10 @@ export interface Database {
           updated_at: string;
         };
         Insert: Omit<
-          Database['public']['Tables']['categories']['Row'],
-          'created_at' | 'updated_at' | 'workflow_count'
+          Database["public"]["Tables"]["categories"]["Row"],
+          "created_at" | "updated_at" | "workflow_count"
         >;
-        Update: Partial<Database['public']['Tables']['categories']['Insert']>;
+        Update: Partial<Database["public"]["Tables"]["categories"]["Insert"]>;
       };
 
       repo_sources: {
@@ -46,10 +46,10 @@ export interface Database {
           updated_at: string;
         };
         Insert: Omit<
-          Database['public']['Tables']['repo_sources']['Row'],
-          'created_at' | 'updated_at' | 'total_workflows'
+          Database["public"]["Tables"]["repo_sources"]["Row"],
+          "created_at" | "updated_at" | "total_workflows"
         >;
-        Update: Partial<Database['public']['Tables']['repo_sources']['Insert']>;
+        Update: Partial<Database["public"]["Tables"]["repo_sources"]["Insert"]>;
       };
 
       workflows: {
@@ -85,16 +85,16 @@ export interface Database {
           updated_at: string;
         };
         Insert: Omit<
-          Database['public']['Tables']['workflows']['Row'],
-          | 'id'
-          | 'created_at'
-          | 'updated_at'
-          | 'view_count'
-          | 'download_count'
-          | 'works_count'
-          | 'broken_count'
+          Database["public"]["Tables"]["workflows"]["Row"],
+          | "id"
+          | "created_at"
+          | "updated_at"
+          | "view_count"
+          | "download_count"
+          | "works_count"
+          | "broken_count"
         >;
-        Update: Partial<Database['public']['Tables']['workflows']['Insert']>;
+        Update: Partial<Database["public"]["Tables"]["workflows"]["Insert"]>;
       };
 
       workflow_events: {
@@ -110,11 +110,11 @@ export interface Database {
           created_at: string;
         };
         Insert: Omit<
-          Database['public']['Tables']['workflow_events']['Row'],
-          'id' | 'created_at'
+          Database["public"]["Tables"]["workflow_events"]["Row"],
+          "id" | "created_at"
         >;
         Update: Partial<
-          Database['public']['Tables']['workflow_events']['Insert']
+          Database["public"]["Tables"]["workflow_events"]["Insert"]
         >;
       };
 
@@ -122,7 +122,7 @@ export interface Database {
         Row: {
           id: string;
           workflow_id: string;
-          feedback_type: 'works' | 'broken';
+          feedback_type: "works" | "broken";
           dify_version: string | null;
           comment: string | null;
           ip_address: string | null;
@@ -130,11 +130,11 @@ export interface Database {
           created_at: string;
         };
         Insert: Omit<
-          Database['public']['Tables']['workflow_feedback']['Row'],
-          'id' | 'created_at'
+          Database["public"]["Tables"]["workflow_feedback"]["Row"],
+          "id" | "created_at"
         >;
         Update: Partial<
-          Database['public']['Tables']['workflow_feedback']['Insert']
+          Database["public"]["Tables"]["workflow_feedback"]["Insert"]
         >;
       };
 
@@ -142,7 +142,7 @@ export interface Database {
         Row: {
           id: string;
           repo_id: string | null;
-          status: 'started' | 'completed' | 'failed';
+          status: "started" | "completed" | "failed";
           workflows_added: number;
           workflows_updated: number;
           workflows_unchanged: number;
@@ -152,8 +152,8 @@ export interface Database {
           started_at: string;
           completed_at: string | null;
         };
-        Insert: Omit<Database['public']['Tables']['sync_logs']['Row'], 'id'>;
-        Update: Partial<Database['public']['Tables']['sync_logs']['Insert']>;
+        Insert: Omit<Database["public"]["Tables"]["sync_logs"]["Row"], "id">;
+        Update: Partial<Database["public"]["Tables"]["sync_logs"]["Insert"]>;
       };
     };
     Views: {

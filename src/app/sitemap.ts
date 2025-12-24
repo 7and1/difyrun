@@ -1,48 +1,48 @@
-import { MetadataRoute } from 'next';
-import { getAllWorkflowSlugs } from '@/lib/db';
-import { CATEGORIES } from '@/config/categories';
+import { MetadataRoute } from "next";
+import { getAllWorkflowSlugs } from "@/lib/db";
+import { CATEGORIES } from "@/config/categories";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://difyrun.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://difyrun.com";
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: "daily",
       priority: 1,
     },
     {
       url: `${baseUrl}/explore`,
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: "daily",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/sources`,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
+      changeFrequency: "weekly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/docs/getting-started`,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
+      changeFrequency: "weekly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/docs/import-workflow`,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
+      changeFrequency: "weekly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/compare/dify-vs-n8n`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: "monthly",
       priority: 0.7,
     },
   ];
@@ -51,7 +51,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const categoryPages: MetadataRoute.Sitemap = CATEGORIES.map((category) => ({
     url: `${baseUrl}/explore/${category.slug}`,
     lastModified: new Date(),
-    changeFrequency: 'daily' as const,
+    changeFrequency: "daily" as const,
     priority: 0.8,
   }));
 
@@ -63,11 +63,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     workflowPages = slugs.slice(0, 1000).map((slug) => ({
       url: `${baseUrl}/workflow/${slug}`,
       lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+      changeFrequency: "weekly" as const,
       priority: 0.6,
     }));
   } catch (error) {
-    console.error('Error fetching workflows for sitemap:', error);
+    console.error("Error fetching workflows for sitemap:", error);
   }
 
   return [...staticPages, ...categoryPages, ...workflowPages];

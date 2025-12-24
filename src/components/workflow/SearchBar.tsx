@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useState, useTransition } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Search, X, Loader2 } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { useCallback, useEffect, useState, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Search, X, Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface SearchBarProps {
   placeholder?: string;
@@ -14,7 +14,7 @@ interface SearchBarProps {
 }
 
 export function SearchBar({
-  placeholder = 'Search workflows...',
+  placeholder = "Search workflows...",
   className,
   autoFocus = false,
 }: SearchBarProps) {
@@ -22,12 +22,12 @@ export function SearchBar({
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
-  const initialQuery = searchParams.get('q') || '';
+  const initialQuery = searchParams.get("q") || "";
   const [query, setQuery] = useState(initialQuery);
 
   // Update local state when URL changes
   useEffect(() => {
-    setQuery(searchParams.get('q') || '');
+    setQuery(searchParams.get("q") || "");
   }, [searchParams]);
 
   // Debounced search
@@ -41,13 +41,13 @@ export function SearchBar({
           const params = new URLSearchParams(searchParams.toString());
 
           if (value.trim()) {
-            params.set('q', value.trim());
+            params.set("q", value.trim());
           } else {
-            params.delete('q');
+            params.delete("q");
           }
 
           // Reset to page 1 on new search
-          params.delete('page');
+          params.delete("page");
 
           router.push(`/explore?${params.toString()}`);
         });
@@ -55,21 +55,21 @@ export function SearchBar({
 
       return () => clearTimeout(timeoutId);
     },
-    [router, searchParams]
+    [router, searchParams],
   );
 
   const handleClear = () => {
-    setQuery('');
+    setQuery("");
     startTransition(() => {
       const params = new URLSearchParams(searchParams.toString());
-      params.delete('q');
-      params.delete('page');
+      params.delete("q");
+      params.delete("page");
       router.push(`/explore?${params.toString()}`);
     });
   };
 
   return (
-    <div className={cn('relative', className)}>
+    <div className={cn("relative", className)}>
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 import {
   Plug,
   Bot,
@@ -9,8 +9,8 @@ import {
   BarChart,
   Zap,
   Code,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Category {
   id: string;
@@ -38,27 +38,31 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 const colorMap: Record<string, string> = {
-  mcp: 'from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700',
-  agents: 'from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700',
-  rag: 'from-green-500 to-green-600 hover:from-green-600 hover:to-green-700',
-  chatbots: 'from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700',
-  content: 'from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700',
-  translation: 'from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700',
-  data: 'from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700',
-  automation: 'from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700',
-  development: 'from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700',
+  mcp: "from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700",
+  agents: "from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700",
+  rag: "from-green-500 to-green-600 hover:from-green-600 hover:to-green-700",
+  chatbots: "from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700",
+  content:
+    "from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700",
+  translation:
+    "from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700",
+  data: "from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700",
+  automation:
+    "from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700",
+  development:
+    "from-slate-500 to-slate-600 hover:from-slate-600 hover:to-slate-700",
 };
 
 const bgColorMap: Record<string, string> = {
-  mcp: 'bg-purple-500/10 border-purple-500/20',
-  agents: 'bg-blue-500/10 border-blue-500/20',
-  rag: 'bg-green-500/10 border-green-500/20',
-  chatbots: 'bg-cyan-500/10 border-cyan-500/20',
-  content: 'bg-orange-500/10 border-orange-500/20',
-  translation: 'bg-pink-500/10 border-pink-500/20',
-  data: 'bg-indigo-500/10 border-indigo-500/20',
-  automation: 'bg-yellow-500/10 border-yellow-500/20',
-  development: 'bg-slate-500/10 border-slate-500/20',
+  mcp: "bg-purple-500/10 border-purple-500/20",
+  agents: "bg-blue-500/10 border-blue-500/20",
+  rag: "bg-green-500/10 border-green-500/20",
+  chatbots: "bg-cyan-500/10 border-cyan-500/20",
+  content: "bg-orange-500/10 border-orange-500/20",
+  translation: "bg-pink-500/10 border-pink-500/20",
+  data: "bg-indigo-500/10 border-indigo-500/20",
+  automation: "bg-yellow-500/10 border-yellow-500/20",
+  development: "bg-slate-500/10 border-slate-500/20",
 };
 
 export function CategoryGrid({ categories }: CategoryGridProps) {
@@ -71,8 +75,8 @@ export function CategoryGrid({ categories }: CategoryGridProps) {
             Browse by Category
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Find the perfect workflow template for your use case. From MCP servers
-            to RAG pipelines, we&apos;ve got you covered.
+            Find the perfect workflow template for your use case. From MCP
+            servers to RAG pipelines, we&apos;ve got you covered.
           </p>
         </div>
 
@@ -88,17 +92,17 @@ export function CategoryGrid({ categories }: CategoryGridProps) {
                 key={category.id}
                 href={`/explore/${category.slug}`}
                 className={cn(
-                  'group relative overflow-hidden rounded-xl border p-6 transition-all duration-300',
-                  'hover:shadow-lg hover:-translate-y-0.5',
-                  bgColor
+                  "group relative overflow-hidden rounded-xl border p-6 transition-all duration-300",
+                  "hover:shadow-lg hover:-translate-y-0.5",
+                  bgColor,
                 )}
               >
                 {/* Icon */}
                 <div
                   className={cn(
-                    'inline-flex items-center justify-center w-12 h-12 rounded-lg mb-4',
-                    'bg-gradient-to-br text-white shadow-lg',
-                    gradientColor
+                    "inline-flex items-center justify-center w-12 h-12 rounded-lg mb-4",
+                    "bg-gradient-to-br text-white shadow-lg",
+                    gradientColor,
                   )}
                 >
                   <Icon className="h-6 w-6" />

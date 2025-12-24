@@ -1,29 +1,29 @@
-'use client';
+"use client";
 
-import { useCallback, useTransition } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowUpDown, Check } from 'lucide-react';
+import { useCallback, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ArrowUpDown, Check } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const SORT_OPTIONS = [
-  { value: 'popular', label: 'Most Popular' },
-  { value: 'recent', label: 'Recently Updated' },
-  { value: 'downloads', label: 'Most Downloads' },
-  { value: 'name', label: 'Name (A-Z)' },
+  { value: "popular", label: "Most Popular" },
+  { value: "recent", label: "Recently Updated" },
+  { value: "downloads", label: "Most Downloads" },
+  { value: "name", label: "Name (A-Z)" },
 ];
 
 interface SortDropdownProps {
   currentSort?: string;
 }
 
-export function SortDropdown({ currentSort = 'popular' }: SortDropdownProps) {
+export function SortDropdown({ currentSort = "popular" }: SortDropdownProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
@@ -33,22 +33,23 @@ export function SortDropdown({ currentSort = 'popular' }: SortDropdownProps) {
       startTransition(() => {
         const params = new URLSearchParams(searchParams.toString());
 
-        if (value === 'popular') {
-          params.delete('sort');
+        if (value === "popular") {
+          params.delete("sort");
         } else {
-          params.set('sort', value);
+          params.set("sort", value);
         }
 
         // Reset page on sort change
-        params.delete('page');
+        params.delete("page");
 
         router.push(`/explore?${params.toString()}`);
       });
     },
-    [router, searchParams]
+    [router, searchParams],
   );
 
-  const currentOption = SORT_OPTIONS.find((opt) => opt.value === currentSort) || SORT_OPTIONS[0];
+  const currentOption =
+    SORT_OPTIONS.find((opt) => opt.value === currentSort) || SORT_OPTIONS[0];
 
   return (
     <DropdownMenu>
@@ -64,8 +65,8 @@ export function SortDropdown({ currentSort = 'popular' }: SortDropdownProps) {
             key={option.value}
             onClick={() => handleSort(option.value)}
             className={cn(
-              'flex items-center justify-between',
-              option.value === currentSort && 'bg-accent'
+              "flex items-center justify-between",
+              option.value === currentSort && "bg-accent",
             )}
           >
             {option.label}

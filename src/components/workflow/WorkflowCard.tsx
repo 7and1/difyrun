@@ -1,9 +1,21 @@
-import Link from 'next/link';
-import { Download, Eye, ThumbsUp, ThumbsDown, Layers, ExternalLink } from 'lucide-react';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { cn, formatNumber } from '@/lib/utils';
-import { getCategoryById, getCategoryEmoji } from '@/config/categories';
+import Link from "next/link";
+import {
+  Download,
+  Eye,
+  ThumbsUp,
+  ThumbsDown,
+  Layers,
+  ExternalLink,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { cn, formatNumber } from "@/lib/utils";
+import { getCategoryById, getCategoryEmoji } from "@/config/categories";
 
 interface Workflow {
   id: string;
@@ -31,38 +43,51 @@ interface WorkflowCardProps {
 }
 
 const categoryColors: Record<string, string> = {
-  mcp: 'bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-500/20',
-  agents: 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20',
-  rag: 'bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20',
-  chatbots: 'bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 border-cyan-500/20',
-  content: 'bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/20',
-  translation: 'bg-pink-500/10 text-pink-700 dark:text-pink-400 border-pink-500/20',
-  data: 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border-indigo-500/20',
-  automation: 'bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20',
-  development: 'bg-slate-500/10 text-slate-700 dark:text-slate-400 border-slate-500/20',
+  mcp: "bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-500/20",
+  agents: "bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20",
+  rag: "bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20",
+  chatbots:
+    "bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 border-cyan-500/20",
+  content:
+    "bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/20",
+  translation:
+    "bg-pink-500/10 text-pink-700 dark:text-pink-400 border-pink-500/20",
+  data: "bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border-indigo-500/20",
+  automation:
+    "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20",
+  development:
+    "bg-slate-500/10 text-slate-700 dark:text-slate-400 border-slate-500/20",
 };
 
 export function WorkflowCard({ workflow, className }: WorkflowCardProps) {
-  const category = workflow.category_id ? getCategoryById(workflow.category_id) : null;
-  const categoryEmoji = workflow.category_id ? getCategoryEmoji(workflow.category_id) : '📁';
+  const category = workflow.category_id
+    ? getCategoryById(workflow.category_id)
+    : null;
+  const categoryEmoji = workflow.category_id
+    ? getCategoryEmoji(workflow.category_id)
+    : "📁";
   const categoryColor = workflow.category_id
     ? categoryColors[workflow.category_id] || categoryColors.automation
     : categoryColors.automation;
 
   // Calculate compatibility score
   const totalVotes = workflow.works_count + workflow.broken_count;
-  const compatibilityPercent = totalVotes > 0
-    ? Math.round((workflow.works_count / totalVotes) * 100)
-    : null;
+  const compatibilityPercent =
+    totalVotes > 0
+      ? Math.round((workflow.works_count / totalVotes) * 100)
+      : null;
 
   return (
-    <Link href={`/workflow/${workflow.slug}`} className={cn('block group', className)}>
+    <Link
+      href={`/workflow/${workflow.slug}`}
+      className={cn("block group", className)}
+    >
       <Card className="h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 hover:border-primary/20">
         <CardHeader className="pb-3">
           {/* Category badge */}
           {category && (
             <div className="flex items-center gap-2 mb-2">
-              <Badge variant="outline" className={cn('text-xs', categoryColor)}>
+              <Badge variant="outline" className={cn("text-xs", categoryColor)}>
                 <span className="mr-1">{categoryEmoji}</span>
                 {category.name}
               </Badge>
@@ -138,8 +163,10 @@ export function WorkflowCard({ workflow, className }: WorkflowCardProps) {
                 )}
                 <span
                   className={cn(
-                    'text-xs font-medium',
-                    compatibilityPercent >= 70 ? 'text-green-600' : 'text-red-600'
+                    "text-xs font-medium",
+                    compatibilityPercent >= 70
+                      ? "text-green-600"
+                      : "text-red-600",
                   )}
                 >
                   {compatibilityPercent}%

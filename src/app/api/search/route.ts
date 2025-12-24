@@ -1,7 +1,7 @@
 // Search API endpoint - workflows search with filtering and pagination
 
-import { NextRequest, NextResponse } from 'next/server';
-import { getWorkflows } from '@/lib/db';
+import { NextRequest, NextResponse } from "next/server";
+import { getWorkflows } from "@/lib/db";
 
 export interface SearchResponse {
   workflows: any[];
@@ -18,12 +18,15 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
 
     // Parse query parameters
-    const query = searchParams.get('q')?.trim() || '';
-    const category = searchParams.get('category')?.trim() || '';
-    const tags = searchParams.getAll('tag').filter(Boolean);
-    const sort = searchParams.get('sort') || 'popular';
-    const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
-    const limit = Math.min(50, Math.max(1, parseInt(searchParams.get('limit') || '20', 10)));
+    const query = searchParams.get("q")?.trim() || "";
+    const category = searchParams.get("category")?.trim() || "";
+    const tags = searchParams.getAll("tag").filter(Boolean);
+    const sort = searchParams.get("sort") || "popular";
+    const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
+    const limit = Math.min(
+      50,
+      Math.max(1, parseInt(searchParams.get("limit") || "20", 10)),
+    );
 
     const offset = (page - 1) * limit;
 
@@ -51,17 +54,17 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(response, {
       headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
       },
     });
   } catch (error) {
-    console.error('Search error:', error);
+    console.error("Search error:", error);
     return NextResponse.json(
       {
-        error: 'Search failed',
-        message: error instanceof Error ? error.message : 'Unknown error',
+        error: "Search failed",
+        message: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

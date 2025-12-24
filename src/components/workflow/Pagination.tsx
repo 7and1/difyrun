@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useCallback } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface PaginationProps {
   currentPage: number;
@@ -26,18 +26,18 @@ export function Pagination({
     (page: number) => {
       const params = new URLSearchParams(searchParams.toString());
       if (page === 1) {
-        params.delete('page');
+        params.delete("page");
       } else {
-        params.set('page', page.toString());
+        params.set("page", page.toString());
       }
       router.push(`/explore?${params.toString()}`);
     },
-    [router, searchParams]
+    [router, searchParams],
   );
 
   // Calculate visible page numbers
   const getVisiblePages = () => {
-    const pages: (number | 'ellipsis')[] = [];
+    const pages: (number | "ellipsis")[] = [];
     const maxVisible = 5;
 
     if (totalPages <= maxVisible + 2) {
@@ -65,7 +65,7 @@ export function Pagination({
 
       // Add ellipsis if needed at the start
       if (start > 2) {
-        pages.push('ellipsis');
+        pages.push("ellipsis");
       }
 
       // Add middle pages
@@ -75,7 +75,7 @@ export function Pagination({
 
       // Add ellipsis if needed at the end
       if (end < totalPages - 1) {
-        pages.push('ellipsis');
+        pages.push("ellipsis");
       }
 
       // Always show last page
@@ -97,8 +97,8 @@ export function Pagination({
     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6">
       {/* Results info */}
       <p className="text-sm text-muted-foreground">
-        Showing <span className="font-medium">{startItem}</span> to{' '}
-        <span className="font-medium">{endItem}</span> of{' '}
+        Showing <span className="font-medium">{startItem}</span> to{" "}
+        <span className="font-medium">{endItem}</span> of{" "}
         <span className="font-medium">{totalItems}</span> results
       </p>
 
@@ -118,7 +118,7 @@ export function Pagination({
 
         {/* Page numbers */}
         {visiblePages.map((page, index) => {
-          if (page === 'ellipsis') {
+          if (page === "ellipsis") {
             return (
               <span
                 key={`ellipsis-${index}`}
@@ -132,12 +132,12 @@ export function Pagination({
           return (
             <Button
               key={page}
-              variant={page === currentPage ? 'default' : 'outline'}
+              variant={page === currentPage ? "default" : "outline"}
               size="icon"
               onClick={() => goToPage(page)}
               className={cn(
-                'h-8 w-8',
-                page === currentPage && 'pointer-events-none'
+                "h-8 w-8",
+                page === currentPage && "pointer-events-none",
               )}
             >
               {page}

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useState } from 'react';
+import Link from "next/link";
+import { useState } from "react";
 import {
   Menu,
   X,
@@ -10,10 +10,10 @@ import {
   Zap,
   ChevronDown,
   Sparkles,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { CATEGORIES } from '@/config/categories';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { CATEGORIES } from "@/config/categories";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -46,11 +46,18 @@ export function Header() {
             <div className="relative">
               <button
                 onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}
-                onBlur={() => setTimeout(() => setCategoryDropdownOpen(false), 150)}
+                onBlur={() =>
+                  setTimeout(() => setCategoryDropdownOpen(false), 150)
+                }
                 className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 Categories
-                <ChevronDown className={cn('h-4 w-4 transition-transform', categoryDropdownOpen && 'rotate-180')} />
+                <ChevronDown
+                  className={cn(
+                    "h-4 w-4 transition-transform",
+                    categoryDropdownOpen && "rotate-180",
+                  )}
+                />
               </button>
 
               {categoryDropdownOpen && (
@@ -62,7 +69,12 @@ export function Header() {
                         href={`/explore/${category.slug}`}
                         className="flex items-center gap-3 rounded-md px-3 py-2 text-sm hover:bg-accent transition-colors"
                       >
-                        <span className={cn('w-2 h-2 rounded-full', `bg-category-${category.id}`)} />
+                        <span
+                          className={cn(
+                            "w-2 h-2 rounded-full",
+                            `bg-category-${category.id}`,
+                          )}
+                        />
                         <span>{category.name}</span>
                         <span className="ml-auto text-xs text-muted-foreground">
                           {category.nameCn}
@@ -105,7 +117,9 @@ export function Header() {
             variant="ghost"
             size="icon"
             className="hidden sm:flex"
-            onClick={() => window.dispatchEvent(new CustomEvent('open-dify-advisor'))}
+            onClick={() =>
+              window.dispatchEvent(new CustomEvent("open-dify-advisor"))
+            }
           >
             <Sparkles className="h-5 w-5 text-purple-500" />
             <span className="sr-only">AI Help</span>
@@ -197,7 +211,7 @@ export function Header() {
               className="flex items-center gap-2 py-2 text-sm font-medium text-purple-600"
               onClick={() => {
                 setMobileMenuOpen(false);
-                window.dispatchEvent(new CustomEvent('open-dify-advisor'));
+                window.dispatchEvent(new CustomEvent("open-dify-advisor"));
               }}
             >
               <Sparkles className="h-4 w-4" />
